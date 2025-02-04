@@ -1,0 +1,35 @@
+button{
+    font-size: 1.3rem;
+    border-radius: .3em;
+    padding: .1em .2em .1em .2em;
+    display: flex;
+    cursor: pointer;
+}
+input, label {
+    display: block;
+}
+label{
+    font-weight: bold;
+    color: var(--text-clr);
+}
+span{
+    font-size: 12px;
+    display: flex;
+    color: var(--secondary-text-clr);
+}
+#save {
+    background-color: var(--selected-clr);
+    span {
+        color: black;
+    }
+}
+#save:hover{
+    background-color: var(--hover-clr);
+}
+.select-buttons {
+    display: flex;
+}
+input, select{
+    background-color: var(--input-background-clr);
+    color: var(--secondary-text-clr) ;
+}

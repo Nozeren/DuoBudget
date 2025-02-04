@@ -1,12 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');        
 :root{
-    --base-clr: #24252A;
-    --line-clr: #42434a;
-    --hover-clr: #394a51;
-    --background-input: #383946;
-    --text-clr: #e6e6ef;
-    --accent-clr: #42b883;
+    --base-clr: #0C1618;
+    --line-clr: #66A182;
+    --hover-clr: #B86F52;
+    --text-clr: #fff;
+    --selected-clr: #F78764;
     --secondary-text-clr: #b0b3c1;
+    --input-background-clr: #47585c;
 }
 *{
     margin: 0;
@@ -76,9 +76,9 @@ main p {
     }
 }
 #sidebar ul li.active a{
-    color: var(--accent-clr);
+    color: var(--selected-clr);
     svg{
-        fill: var(--accent-clr);
+        fill: var(--selected-clr);
     }
 }
 

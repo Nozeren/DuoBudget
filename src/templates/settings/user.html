@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Budget - Add {{tag}}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/settings/user.css') }}">
+{% endblock %}
+
+{% block body %}
+<div>
+    <div>
+        <label for="user-name">Name</label>
+        <span>User name</span>
+        <input type="text" name="user-name">
+    </div>
+    <div>
+        <label for="color">Color</label>
+        <span>Color displayed on your dashboard.</span>
+        <input type="color" name="color">
+    </div>
+    <div>
+        <label for="banks">Banks</label>
+        <span>Select user banks.</span>
+        <select name="banks" id="banks" multiple>
+            <option value>Santander PT</option>
+            <option value>Piraeus</option>
+        </select>
+        <div class="select-buttons">
+            <button>
+                <span>+</span>
+            </button>
+            <button>
+                <span>-</span>
+            </button>
+        </div>
+
+    </div>
+    <div>
+        <label for="partner">Partner</label>
+        <span>Select partern to share bills. (Optional)</span>
+        <select name="partner" id="partner" multiple>
+            <option value>User1</option>
+            <option value>User2</option>
+        </select>
+        <div class="select-buttons">
+            <button>
+                <span>+</span>
+            </button>
+            <button>
+                <span>-</span>
+            </button>
+        </div>
+
+    </div>
+    <div>
+        <button id='save' href="#">
+            <span>
+                Save
+            </span>
+        </button>
+    </div>
+</div>
+{% endblock %}
