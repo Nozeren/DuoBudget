@@ -3,60 +3,31 @@
 {% block head %}
 <title>Budget - Add {{tag}}</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/settings/user.css') }}">
+<script type="text/javascript" src="{{ url_for('static', filename='script/settings/user.js') }}" defer></script>
 {% endblock %}
 
 {% block body %}
-<div>
-    <div>
-        <label for="user-name">Name</label>
-        <span>User name</span>
-        <input type="text" name="user-name">
+<div class="settings-user-section">
+    <div class="header-section">
+        <h1>Users</h1>
+        <p>2 users</p>
     </div>
     <div>
-        <label for="color">Color</label>
-        <span>Color displayed on your dashboard.</span>
-        <input type="color" name="color">
-    </div>
-    <div>
-        <label for="banks">Banks</label>
-        <span>Select user banks.</span>
-        <select name="banks" id="banks" multiple>
-            <option value>Santander PT</option>
-            <option value>Piraeus</option>
-        </select>
-        <div class="select-buttons">
-            <button>
-                <span>+</span>
-            </button>
-            <button>
-                <span>-</span>
-            </button>
-        </div>
+        <ul class="users-section">
+            <li class="user-container">
+                <div class="user-color"></div>
+                <div class="user-name"><p>John</p></div>
+            </li>
+            <li id="add-user-btn" class="add-container">
+                <button type="button" onclick="expandAddUser()">add user</button>
+            </li>
+            <li id="add-user-form" class="add-user-form" style="display: none;">
+                <h3>Add User</h3>
+                <input type="text" class="userNameInput" placeholder="User Name" autofocus required>
+                <input type="color">
+            </li>
+        </ul>
 
-    </div>
-    <div>
-        <label for="partner">Partner</label>
-        <span>Select partern to share bills. (Optional)</span>
-        <select name="partner" id="partner" multiple>
-            <option value>User1</option>
-            <option value>User2</option>
-        </select>
-        <div class="select-buttons">
-            <button>
-                <span>+</span>
-            </button>
-            <button>
-                <span>-</span>
-            </button>
-        </div>
-
-    </div>
-    <div>
-        <button id='save' href="#">
-            <span>
-                Save
-            </span>
-        </button>
     </div>
 </div>
 {% endblock %}

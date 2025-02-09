@@ -1,35 +1,105 @@
-button{
-    font-size: 1.3rem;
-    border-radius: .3em;
-    padding: .1em .2em .1em .2em;
+.settings-user-section{
+    margin-top: 5px;
+    width: 95%;
+}
+.header-section{
+    border-radius: 20px;
     display: flex;
-    cursor: pointer;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 25px;
+    position: relative;
+    h1{
+        color: var(--title-clr);
+        font-weight: bold;
+    }
+    p{
+        color: var(--description-clr);
+        margin-right: 56px;
+        font-size: 20px;
+    }
+    
 }
-input, label {
-    display: block;
+.user-section{
+    list-style-type: none;
 }
-label{
-    font-weight: bold;
+.user-container{
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-auto-rows: 50px;
+    width: 90%;
+    gap: 20px;
+    margin-left: 20px;
+    margin-top: 30px;
+    border-radius: 20px;
+    background-color: var(--cards-clr);
+    overflow: hidden;
+    
+}
+.user-container .user-name{
+    display: flex;
+    align-items: center;
     color: var(--text-clr);
+    font-size: 20px;
 }
-span{
-    font-size: 12px;
+.user-container .user-color{
+    height: auto;
+    width: 100%;
+    background:rgb(206, 214, 135);
+}
+
+.add-container{
     display: flex;
-    color: var(--secondary-text-clr);
-}
-#save {
-    background-color: var(--selected-clr);
-    span {
-        color: black;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    height: 50px;
+    margin-left: 20px;
+    margin-top: 30px;
+    overflow: hidden;
+    button{
+        background-color: var(--button-clr);
+        border: none;
+        border-radius: 8px;
+        width: 100%;
+        height: 100%;
+        color: var(--text-clr);
+        font-size: 20px;
+        cursor: pointer;
+        text-transform: uppercase;
+        border-bottom: 4px solid var(--button-border-clr);
+
+        &:hover {
+            border-bottom: 2px solid var(--button-border-clr);
+        }
     }
 }
-#save:hover{
-    background-color: var(--hover-clr);
-}
-.select-buttons {
-    display: flex;
-}
-input, select{
-    background-color: var(--input-background-clr);
-    color: var(--secondary-text-clr) ;
+
+.add-user-form{
+    background-color: var(--cards-clr);
+    border-radius: 8px;
+    width: 90%;
+    margin-left: 20px;
+    margin-top: 30px;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    h3{
+        margin: 1em 0;
+        vertical-align: top;
+    }
+    input[type='text']{
+        position: relative;
+        border: 1px solid #e0e0e0;
+        background: var(--icons-clr);
+        outline: none;
+        padding: 1em;
+        border-radius: 3px;
+        font-weight: 300;
+        font-size: 0.8em;
+        margin-top: 5px;
+        margin-right: 10px;
+    }
 }
