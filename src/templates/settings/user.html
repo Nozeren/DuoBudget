@@ -18,19 +18,21 @@
             <h4>Add User</h4>
             <p>Removing a user may delete and affect user data.</p>
         </div>
-        <form action="#" method="post">
+        <form id="userform" action="/settings/user" method="POST">
             <div class="useroption">
-                <input type="radio" name="useroption" id="useroption0">
+                <input value="Heli" type="radio" name="useroption" id="useroption0">
                 <label for="useroption0"><code>Heli</code></label>
             </div>
             <div class="useroption">
-                <input type="radio" name="useroption" id="useroption1">
+                <input value="John" type="radio" name="useroption" id="useroption1">
                 <label for="useroption1"><code>John</code></label>
             </div>
             <div class="newuseroption" id="newuseroption"></div>
             <div class="usersbuttons">
                 <a id="adduser"><strong>+</strong></a>
-                <a id="removeuser"><strong>-</strong></a>
+                <a type="submit" id="removeuser"><strong>-</strong></a>
+                <a type="submit" id="saveuser" name="saveuser" hidden>v</a>
+                <a id="canceluser" hidden>x</a>
             </div>
         </form>
     </div>

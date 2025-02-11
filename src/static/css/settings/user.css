@@ -3,13 +3,13 @@
     width: 95%;
 }
 .header-section{
-    border-radius: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    padding: 25px;
+    padding: 25px 25px 15px;
     position: relative;
+    border-bottom: 2px solid var(--cards-clr);
     h1{
         color: var(--title-clr);
         font-weight: bold;
@@ -22,7 +22,7 @@
     
 }
 .adduser-container{
-    padding: 5px 25px;
+    padding: 20px 25px;
 }
 
 form{
