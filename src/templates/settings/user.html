@@ -9,25 +9,30 @@
 {% block body %}
 <div class="settings-user-section">
     <div class="header-section">
-        <h1>Users</h1>
+        <h1>USERS</h1>
         <p>2 users</p>
     </div>
-    <div>
-        <ul class="users-section">
-            <li class="user-container">
-                <div class="user-color"></div>
-                <div class="user-name"><p>John</p></div>
-            </li>
-            <li id="add-user-btn" class="add-container">
-                <button type="button" onclick="expandAddUser()">add user</button>
-            </li>
-            <li id="add-user-form" class="add-user-form" style="display: none;">
-                <h3>Add User</h3>
-                <input type="text" class="userNameInput" placeholder="User Name" autofocus required>
-                <input type="color">
-            </li>
-        </ul>
 
+    <div class="adduser-container">
+        <div class="adduser-header">
+            <h4>Add User</h4>
+            <p>Removing a user may delete and affect user data.</p>
+        </div>
+        <form action="#" method="post">
+            <div class="useroption">
+                <input type="radio" name="useroption" id="useroption0">
+                <label for="useroption0"><code>Heli</code></label>
+            </div>
+            <div class="useroption">
+                <input type="radio" name="useroption" id="useroption1">
+                <label for="useroption1"><code>John</code></label>
+            </div>
+            <div class="newuseroption" id="newuseroption"></div>
+            <div class="usersbuttons">
+                <a id="adduser"><strong>+</strong></a>
+                <a id="removeuser"><strong>-</strong></a>
+            </div>
+        </form>
     </div>
 </div>
 {% endblock %}
