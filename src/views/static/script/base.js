@@ -1,27 +1,14 @@
-const toggleButton = document.getElementById('toggle-btn');
-const sidebar = document.getElementById('sidebar');
+// SHORTCUT
 
-function toggleSubMenu(button){
-    if (!button.nextElementSibling.classList.contains('show')){
-        closeAllSubMenus()
-    }
-    button.nextElementSibling.classList.toggle('show');
-    button.classList.toggle('rotate');
-    if(sidebar.classList.contains('close')){
-        sidebar.classList.toggle('close');
-        toggleButton.classList.toggle('rotate');
+function openPages(event){
+    // Dashboard
+    if (event.ctrlKey && event.code == "KeyD"){
+        event.preventDefault();
+        window.location.href = "/";
+    } else if (event.ctrlKey && event.code == "KeyS"){
+        event.preventDefault();
+        window.location.href = "/settings/user";
     }
 }
 
-function toggleSidebar(){
-    sidebar.classList.toggle('close');
-    toggleButton.classList.toggle('rotate');
-
-    closeAllSubMenus()
-}
-function closeAllSubMenus(){
-    Array.from(sidebar.getElementsByClassName('show')).forEach(ul => {
-        ul.classList.remove('show');
-        ul.previousElementSibling.classList.remove('rotate');
-    });
-}
+document.addEventListener("keydown", openPages)
