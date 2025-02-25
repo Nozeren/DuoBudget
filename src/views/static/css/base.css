@@ -42,6 +42,8 @@ main p {
 }
 
 #sidebar{
+    position: sticky;
+    top: 0;
     box-sizing: border-box;
     height: 100vh;
     width: 50px;

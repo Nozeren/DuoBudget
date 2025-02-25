@@ -9,7 +9,7 @@
     width: 100%;
     padding: 25px 25px 15px;
     position: relative;
-    border-bottom: 2px solid var(--cards-clr);
+    border-bottom: 2px solid var(--selected-clr);
     h1{
         color: var(--title-clr);
         font-weight: bold;

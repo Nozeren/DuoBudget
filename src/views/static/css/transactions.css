@@ -1,0 +1,50 @@
+.transactions-header-container{
+    margin-top: 5px;
+    display: flex;
+    justify-content: space-between;
+    padding: 25px 25px 15px;
+    position: relative;
+    border-bottom: 2px solid var(--selected-clr);
+    h1{
+        color: var(--title-clr);
+        font-weight: bold;
+    }
+    button{
+       display: flex;
+       color: var(--text-clr);
+       padding: 3px 9px;
+       font-size: 16px;
+       justify-content: center;
+       align-items: center;
+       background-color: var(--sidebar-clr);
+       border: 1px solid var(--button-border-clr);
+       border-radius: 8px;
+       cursor: pointer;
+    }
+    button:hover{
+        background-color: var(--selected-clr);
+    }
+}
+.transactions-content-container{
+    padding: 20px 25px;
+}
+table{
+    border: 1px solid var(--button-border-clr);
+    background-color: var(--cards-clr);
+    border-radius: 14px;
+    padding: 5px;
+    tr td{
+        padding: 5px 10px;
+    }
+    tbody tr th{
+        background-color: var(--cards-clr);
+        padding: 10px 10px;
+        align-items: center;
+        text-align: left;
+        position:sticky;
+        top: 0;
+    }
+    tr td{
+        border-bottom: 1px dashed var(--description-clr);
+    }
+}
