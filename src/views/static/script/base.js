@@ -12,3 +12,9 @@ function openPages(event){
 }
 
 document.addEventListener("keydown", openPages)
+setTimeout(function(){
+    let message = document.querySelector('.alert-container')
+    if (message){
+        message.remove()
+    }
+}, 5000)

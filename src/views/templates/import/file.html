@@ -4,13 +4,13 @@
 
 <div class="popup-container-overlay" id="importfileform">
     <div class="popup-container">
-        <form class="form-container" method="POST" action="/import">
+        <form class="form-container" method="POST" action="/import" enctype=multipart/form-data>
             <h1>IMPORT FILE</h1>
             <label for="user">User</label>
             <select name="user" id="user"></select>
             <label for="bank">Bank</label>
             <select name="bank" id="bank"></select>
-            <input type="file" accept=".csv, .xls, .xlsx" required>
+            <input type="file" name="file" , id="file" accept=".csv, .xls, .xlsx" required>
             <button>Save</button>
         </form>
     </div>

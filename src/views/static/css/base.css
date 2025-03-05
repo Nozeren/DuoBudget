@@ -85,3 +85,36 @@ main p {
         fill: var(--selected-clr);
     }
 }
+/* Alerts */ 
+.alert-container{
+    position: fixed;
+    display: flex;
+    bottom: 20px;
+    right: 20px;
+
+}
+.alert-error{
+  border-radius: 20px;
+  padding: 20px;
+  background-color: #D84040;
+  color: white;
+  margin-bottom: 15px;
+  box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.4);
+}
+
+/* The close button */
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* When moving the mouse over the close button */
+.closebtn:hover {
+  color: black;
+}

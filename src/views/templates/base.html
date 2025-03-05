@@ -34,6 +34,14 @@
         </nav>
 
         <main>
+            {% for category, message in get_flashed_messages(with_categories=true)%}
+            <div class="alert-container">
+                <div class="alert-{{category}}">
+                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                    {{message}}
+                </div>
+            </div>
+            {% endfor%}
             {% block body %}
             {% endblock %}
         </main>
