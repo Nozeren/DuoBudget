@@ -2,22 +2,27 @@ import os
 import pandas as pd
 from dataclasses import dataclass
 
-from etl import factory 
+from etl import factory
 from etl.banks import UPLOAD_FOLDER
+
+
 @dataclass
 class Alpha:
     name: str
     country: str
+    color: str
     upload_folder: str = UPLOAD_FOLDER
     dataframe: pd.DataFrame = None
 
     def extract(self) -> None:
-        files_path = [file for file in os.listdir(self.upload_folder) if file.endswith(".csv")]
+        files_path = [file for file in os.listdir(
+            self.upload_folder) if file.endswith(".csv")]
         # In case it has files
         if files_path:
             self._dataframes = []
             for file in files_path:
-                dataframe = pd.read_csv( self.upload_folder + "/" + file, sep=";",header=4,index_col=None,decimal=",")
+                dataframe = pd.read_csv(
+                    self.upload_folder + "/" + file, sep=";", header=4, index_col=None, decimal=",")
                 self._dataframes.append(dataframe)
                 os.remove(self.upload_folder + "/" + file)
             if len(self._dataframes) > 1:
@@ -38,5 +43,7 @@ class Alpha:
             }
         )
         self.dataframe = dataframe
+
+
 def initialize() -> None:
     factory.register_bank("Alpha", Alpha)

@@ -59,8 +59,8 @@ table{
     align-items: center;
     position:absolute;
     z-index: 99999;
-    border: 1px solid, var(--button-border-clr);
-    background-color: var(--cards-clr);
+       border: 1px solid var(--button-border-clr);
+       background-color: var(--sidebar-clr);
     border-radius: 14px;
     padding: 5px;
     a{font-size: 18px; font-weight: bold;}

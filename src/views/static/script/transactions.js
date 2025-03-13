@@ -8,9 +8,9 @@ let columns = [
   "id",
   "posted_date",
   "description",
+  "subcategory_id",
   "user_id",
   "bank_id",
-  "subcategory_id",
   "shared_amount",
   "amount",
 ];
@@ -99,8 +99,13 @@ function createUserSelection(td, users, selected_user_id) {
     let option = document.createElement("option");
     option.innerHTML = row["name"];
     option.value = row["id"];
+    option.dataset.color = row["color"];
     option.style.backgroundColor = optionsBackground;
     if (row["id"] == selected_user_id) {
+      select.style.backgroundColor = row["color"];
+      select.style.padding = "3px 11px";
+      select.style.borderRadius = "8px";
+      select.style.textAlign = "center";
       option.selected = true;
     }
     select.appendChild(option);
@@ -144,8 +149,13 @@ function createBankSelection(td, banks, selected_bank_id) {
     let option = document.createElement("option");
     option.innerHTML = row["name"];
     option.value = row["id"];
+    option.dataset.color = row["color"];
     option.style.backgroundColor = optionsBackground;
     if (row["id"] == selected_bank_id) {
+      select.style.padding = "3px 11px";
+      select.style.backgroundColor = row["color"];
+      select.style.borderRadius = "8px";
+      select.style.textAlign = "center";
       option.selected = true;
     }
     countries[row["country"]].appendChild(option);
@@ -269,7 +279,7 @@ let sideMenu = {
         scrollY;
       sideMenu.left =
         sideMenu.row.getBoundingClientRect().left -
-        sideMenu.menu.getBoundingClientRect().width +
+        sideMenu.menu.getBoundingClientRect().width / 1.2 +
         scrollX;
       sideMenu.menu.style.top = `${sideMenu.top}px`;
       sideMenu.menu.style.left = `${sideMenu.left}px`;
@@ -316,6 +326,9 @@ let editable = {
   selectDone: () => {
     editable.ccell.classList.remove("edit");
     if (editable.cselect.value != editable.cval) {
+      let index = editable.cselect.selectedIndex;
+      editable.cselect.style.backgroundColor =
+        editable.cselect.options[index].dataset.color;
       let data = {
         row_id: editable.ccell.dataset.row_id,
         column: editable.ccell.dataset.column,
