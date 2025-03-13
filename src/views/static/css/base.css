@@ -102,6 +102,15 @@ main p {
   box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.4);
 }
 
+.alert-success{
+  border-radius: 20px;
+  padding: 20px;
+  background-color: #61876E;
+  color: white;
+  margin-bottom: 15px;
+  box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.4);
+}
+
 /* The close button */
 .closebtn {
   margin-left: 15px;
