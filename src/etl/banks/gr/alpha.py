@@ -7,6 +7,7 @@ from etl.banks import UPLOAD_FOLDER
 @dataclass
 class Alpha:
     name: str
+    country: str
     upload_folder: str = UPLOAD_FOLDER
     dataframe: pd.DataFrame = None
 
@@ -38,4 +39,4 @@ class Alpha:
         )
         self.dataframe = dataframe
 def initialize() -> None:
-    factory.register_bank("Alpha GR", Alpha)
+    factory.register_bank("Alpha", Alpha)

@@ -13,7 +13,7 @@ function closeEdit(){
     let input= document.getElementById('inputusername');
     input.remove();
 }
-function updateUsers(){
+async function updateUsers(){
     fetch('/allusers').then(function(response){
         return response.json()
     }).then(function(data){
@@ -89,10 +89,10 @@ removeUser.addEventListener('click', function(e){
 cancelUser.addEventListener('click', function(e){
    closeEdit();
 })
-saveUser.addEventListener('click', function(e){
+saveUser.addEventListener('click', async function(e){
     let input= document.getElementById('inputusername');
     let dataFormat = {name:input.value, color:'black'};
     postUser(dataFormat);
     closeEdit();
-    setTimeout(updateUsers,3000);
+    await updateUsers();
 })

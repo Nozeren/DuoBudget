@@ -33,8 +33,9 @@ def create(arguments: dict[str, Any]) -> Bank:
     """Create a Bank Factory and POST a new bank row with a specific name"""
     args_copy = arguments.copy()
     bank_name = args_copy.pop("name")
+    country_name = args_copy.pop("country")
     try:
-        requests.post(f'{API_URL}/banks/', json={'name':bank_name} )
+        requests.post(f'{API_URL}/banks/', json={'name':bank_name, 'country':country_name} )
         bank_func = banks_files_funcs[bank_name]    
         return bank_func(**arguments)
     except KeyError:

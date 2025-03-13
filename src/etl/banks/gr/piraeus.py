@@ -12,6 +12,7 @@ API_URL = os.getenv('API_URL')
 @dataclass
 class Piraeus:
     name: str
+    country: str
     upload_folder: str = UPLOAD_FOLDER
     dataframe: pd.DataFrame = None
 
@@ -60,4 +61,4 @@ class Piraeus:
         self.dataframe = dataframe       
 
 def initialize() -> None:
-    factory.register_bank("Piraeus GR", Piraeus)
+    factory.register_bank("Piraeus", Piraeus)

@@ -12,6 +12,7 @@ API_URL = os.getenv('API_URL')
 @dataclass
 class Santader:
     name: str
+    country: str
     upload_folder: str = UPLOAD_FOLDER
     dataframe: pd.DataFrame = None
 
@@ -47,4 +48,4 @@ class Santader:
 
 
 def initialize() -> None:
-    factory.register_bank("Santander PT", Santader)
+    factory.register_bank("Santander", Santader)

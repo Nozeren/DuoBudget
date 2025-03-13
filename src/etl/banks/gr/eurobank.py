@@ -12,6 +12,7 @@ API_URL = os.getenv('API_URL')
 @dataclass
 class Eurobank:
     name: str
+    country: str
     upload_folder: str = UPLOAD_FOLDER
     dataframe: pd.DataFrame = None
 
@@ -41,4 +42,4 @@ class Eurobank:
         self.dataframe = dataframe
 
 def initialize() -> None:
-    factory.register_bank("Eurobank GR", Eurobank)
+    factory.register_bank("Eurobank", Eurobank)
