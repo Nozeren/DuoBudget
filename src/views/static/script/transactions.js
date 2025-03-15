@@ -1,20 +1,13 @@
+let optionsBackground = "#1d2025"; // Color Background
 let icons = {
   add: '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>',
   trash:
     '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>',
 };
 let table = document.getElementById("transactionsbody");
-let columns = [
-  "id",
-  "posted_date",
-  "description",
-  "subcategory_id",
-  "user_id",
-  "bank_id",
-  "shared_amount",
-  "amount",
-];
+let columns = ["id", "posted_date", "description", "subcategory_id", "user_id", "bank_id", "shared_amount", "amount"];
 
+// Notifications
 function addNotification(category, text) {
   let notificationContainer = document.createElement("div");
   notificationContainer.classList.add("alert-container");
@@ -32,6 +25,7 @@ function addNotification(category, text) {
   document.body.appendChild(notificationContainer);
 }
 
+// Import file
 function openImportFile() {
   let body = document.getElementById("import-container");
   fetch("/import")
@@ -51,7 +45,9 @@ window.onclick = (event) => {
   }
 };
 
+// Table Elements
 function createSelect() {
+  // Create Element Select : Default select for transactions table.
   let select = document.createElement("select");
   select.style.fontFamily = "Montserrat";
   select.style.border = "none";
@@ -63,12 +59,7 @@ function createSelect() {
   return select;
 }
 
-let optionsBackground = "#1d2025";
-function createSubcategorySelection(
-  td,
-  subcategories,
-  selected_subcategory_id
-) {
+function createSubcategorySelection(td, subcategories, selected_subcategory_id) {
   let select = createSelect();
   let categories = {};
   for (let row of subcategories[0]) {
@@ -113,29 +104,6 @@ function createUserSelection(td, users, selected_user_id) {
   td.appendChild(select);
 }
 
-async function add_transaction() {
-  let transaction = {
-    posted_date: "2025-01-01",
-    description: "----",
-    user_id: 1,
-    bank_id: 1,
-    subcategory_id: 1,
-    shared_amount: 0,
-    amount: 0,
-  };
-  return fetch("/addtransaction", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(transaction),
-  })
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (data) {
-      return data;
-    });
-}
-
 function createBankSelection(td, banks, selected_bank_id) {
   let select = createSelect();
   let countries = {};
@@ -166,6 +134,29 @@ function createBankSelection(td, banks, selected_bank_id) {
   td.appendChild(select);
 }
 
+// API Related
+async function addTransaction() {
+  let transaction = {
+    posted_date: "2025-01-01",
+    description: "----",
+    user_id: 1,
+    bank_id: 1,
+    subcategory_id: 1,
+    shared_amount: 0,
+    amount: 0,
+  };
+  return fetch("/addtransaction", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(transaction),
+  })
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      return data;
+    });
+}
 async function deleteTransaction(transactionId) {
   return fetch("/deletetransaction", {
     method: "DELETE",
@@ -181,6 +172,43 @@ async function deleteTransaction(transactionId) {
       return data;
     });
 }
+async function getBanks() {
+  return fetch("/allbanks")
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      return data;
+    });
+}
+async function getUsers() {
+  return fetch("/allusers")
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      return data;
+    });
+}
+async function getSubcategories() {
+  return fetch("/subcategories")
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      return data;
+    });
+}
+async function getTransactions() {
+  return fetch("/alltransactions")
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      return data;
+    });
+}
+// Table funcs
 let removeRow = {
   remove: async (row) => {
     let id = row.dataset.row_id;
@@ -202,7 +230,7 @@ let addNew = {
     if (!document.querySelector("#addrow")) {
       tr = document.createElement("tr");
       tr.addEventListener("mouseover", () => sideMenu.display(tr));
-      let transaction = await add_transaction();
+      let transaction = await addTransaction();
       let status_code = transaction[1];
       transaction = transaction[0];
       if (status_code == 201) {
@@ -225,9 +253,7 @@ let addNew = {
           td.dataset.row_id = transaction["id"];
           td.dataset.column = column;
           if (td.querySelector("select")) {
-            td.querySelector("select").addEventListener("click", () =>
-              editable.select(td)
-            );
+            td.querySelector("select").addEventListener("click", () => editable.select(td));
           } else {
             td.addEventListener("dblclick", () => editable.edit(td));
           }
@@ -238,10 +264,7 @@ let addNew = {
         } else {
           previousRow.parentNode.insertBefore(tr, previousRow.nextSibling);
         }
-        addNotification(
-          "success",
-          `${icons.add}Transaction Added: <strong>${transaction["id"]}</strong>`
-        );
+        addNotification("success", `${icons.add}Transaction Added: <strong>${transaction["id"]}</strong>`);
       } else {
         addNotification("error", `Error: ${transaction}`);
       }
@@ -273,14 +296,8 @@ let sideMenu = {
       sideMenu.row.appendChild(sideMenu.menu);
       const scrollX = window.scrollX || document.documentElement.scrollLeft;
       const scrollY = window.scrollY || document.documentElement.scrollTop;
-      sideMenu.top =
-        sideMenu.row.getBoundingClientRect().top -
-        sideMenu.menu.getBoundingClientRect().height / 4 +
-        scrollY;
-      sideMenu.left =
-        sideMenu.row.getBoundingClientRect().left -
-        sideMenu.menu.getBoundingClientRect().width / 1.2 +
-        scrollX;
+      sideMenu.top = sideMenu.row.getBoundingClientRect().top - sideMenu.menu.getBoundingClientRect().height / 4 + scrollY;
+      sideMenu.left = sideMenu.row.getBoundingClientRect().left - sideMenu.menu.getBoundingClientRect().width / 1.2 + scrollX;
       sideMenu.menu.style.top = `${sideMenu.top}px`;
       sideMenu.menu.style.left = `${sideMenu.left}px`;
       sideMenu.menu.style.height = sideMenu.row.getBoundingClientRect().height;
@@ -327,8 +344,7 @@ let editable = {
     editable.ccell.classList.remove("edit");
     if (editable.cselect.value != editable.cval) {
       let index = editable.cselect.selectedIndex;
-      editable.cselect.style.backgroundColor =
-        editable.cselect.options[index].dataset.color;
+      editable.cselect.style.backgroundColor = editable.cselect.options[index].dataset.color;
       let data = {
         row_id: editable.ccell.dataset.row_id,
         column: editable.ccell.dataset.column,
@@ -369,72 +385,80 @@ let editable = {
     }
   },
 };
-async function getBanks() {
-  return fetch("/allbanks")
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (data) {
-      return data;
-    });
+function sortRows(index) {
+  let rows = table.rows;
+  let switching = true;
+  let switchCount = 0;
+  let dir = "asc";
+  while (switching) {
+    switching = false;
+    for (i = 1; i < rows.length - 1; i++) {
+      let toSwitch = false;
+      let currentRow = rows[i].querySelectorAll("td")[index].innerHTML.toLowerCase();
+      let nexRow = rows[i + 1].querySelectorAll("td")[index].innerHTML.toLowerCase();
+      if (dir == "asc") {
+        if (currentRow > nexRow) {
+          toSwitch = true;
+        }
+      } else if (dir == "dsc") {
+        if (currentRow < nexRow) {
+          toSwitch = true;
+        }
+      }
+      if (toSwitch) {
+        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+        switching = true;
+        switchCount++;
+      } else {
+        if (switchCount == 0 && dir == "asc") {
+          dir = "dsc";
+          switching = true;
+        }
+      }
+    }
+  }
 }
-async function getUsers() {
-  return fetch("/allusers")
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (data) {
-      return data;
-    });
-}
-async function getSubcategories() {
-  return fetch("/subcategories")
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (data) {
-      return data;
-    });
-}
+
 window.addEventListener("load", async () => {
   let banks = await getBanks();
   let users = await getUsers();
   let subcategories = await getSubcategories();
 
-  fetch("/alltransactions")
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (data) {
-      for (transaction of data[0]) {
-        let tr = document.createElement("tr");
-        tr.addEventListener("mouseover", () => sideMenu.display(tr));
-        for (let column of columns) {
-          let td = document.createElement("td");
-          if (column == "subcategory_id") {
-            createSubcategorySelection(td, subcategories, transaction[column]);
-          } else if (column == "user_id") {
-            createUserSelection(td, users, transaction[column]);
-          } else if (column == "bank_id") {
-            createBankSelection(td, banks, transaction[column]);
-          } else {
-            td.innerHTML = transaction[column];
-          }
-          tr.dataset.row_id = transaction["id"];
-          td.dataset.row_id = transaction["id"];
-          td.dataset.column = column;
-          tr.appendChild(td);
-        }
-        table.appendChild(tr);
-      }
-      for (let td of document.querySelectorAll(".transactions td")) {
-        if (td.querySelector("select")) {
-          td.querySelector("select").addEventListener("click", () =>
-            editable.select(td)
-          );
+  // Add Transactions Rows to table
+  await getTransactions().then(function (data) {
+    for (transaction of data[0]) {
+      let tr = document.createElement("tr");
+      // Add Side Menu
+      tr.addEventListener("mouseover", () => sideMenu.display(tr));
+      for (let column of columns) {
+        let td = document.createElement("td");
+        if (column == "subcategory_id") {
+          createSubcategorySelection(td, subcategories, transaction[column]);
+        } else if (column == "user_id") {
+          createUserSelection(td, users, transaction[column]);
+        } else if (column == "bank_id") {
+          createBankSelection(td, banks, transaction[column]);
         } else {
-          td.addEventListener("dblclick", () => editable.edit(td));
+          td.innerHTML = transaction[column];
         }
+        tr.dataset.row_id = transaction["id"];
+        td.dataset.row_id = transaction["id"];
+        td.dataset.column = column;
+        tr.appendChild(td);
       }
-    });
+      table.appendChild(tr);
+    }
+    for (let td of document.querySelectorAll(".transactions td")) {
+      if (td.querySelector("select")) {
+        td.querySelector("select").addEventListener("click", () => editable.select(td));
+      } else {
+        td.addEventListener("dblclick", () => editable.edit(td));
+      }
+    }
+  });
+
+  // Sort rows by columns
+  for (let [index, column] of table.querySelectorAll("th").entries()) {
+    column.addEventListener("click", () => sortRows(index));
+  }
 });
