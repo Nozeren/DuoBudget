@@ -1,23 +1,5 @@
-async function get_all_users() {
-  return fetch("/allusers")
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (data) {
-      return data[0];
-    });
-}
-async function get_all_banks() {
-  return fetch("/allbanks")
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (data) {
-      return data[0];
-    });
-}
 async function addOptions() {
-  let allUsers = await get_all_users();
+  let allUsers = await getUsers();
   let select = document.getElementById("user");
   if (select) {
     for (user of allUsers) {
@@ -28,7 +10,7 @@ async function addOptions() {
     }
   }
 
-  let allBanks = await get_all_banks();
+  let allBanks = await getBanks();
   let bankSelect = document.getElementById("bank");
   if (bankSelect) {
     for (bank of allBanks) {
@@ -39,3 +21,23 @@ async function addOptions() {
     }
   }
 }
+
+function openImportFile() {
+  let body = document.getElementById("import-container");
+  fetch("/import")
+    .then(function (response) {
+      return response.text();
+    })
+    .then((html) => {
+      body.innerHTML = html;
+    });
+}
+
+window.onclick = (event) => {
+  if (event.target.matches(".popup-container-overlay")) {
+    let exists = document.getElementById("importfileform");
+    if (exists) {
+      exists.remove();
+    }
+  }
+};

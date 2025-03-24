@@ -2,67 +2,11 @@
     margin-top: 5px;
     width: 95%;
 }
-.header-section{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    padding: 25px 25px 15px;
-    position: relative;
-    border-bottom: 2px solid var(--selected-clr);
-    h1{
-        color: var(--title-clr);
-        font-weight: bold;
-    }
-    p{
-        color: var(--description-clr);
-        margin-right: 56px;
-        font-size: 20px;
-    }
-    
-}
+
 .adduser-container{
-    padding: 20px 25px;
+    padding: 20px 40px;
 }
 
-form{
-    display: block;
-    width: 30%;
-    margin-top: 0;
-    box-sizing: inherit;
-    border: 1px solid var(--button-border-clr);
-    background-color: var(--cards-clr);
-    border-radius: 14px;
-    overflow: auto;
-    padding-top: 5px;
-    .useroption:hover{
-        background-color: var(--description-clr);
-    }
-}
-.useroption{
-    padding: 5px;
-    font-size: 16px;
-    font-weight: 300;
-    label, input{
-        margin-left: 10px;
-    }
-}
-.usersbuttons{
-    display: flex;
-    border-top: 1px solid var(--button-border-clr);
-    a{
-        padding: 3px 9px;
-        color: var(--text-clr);
-        font-size: 18px;
-        border: none;
-        border-right: 1px solid var(--button-border-clr);
-        background-color: transparent;
-        cursor: pointer;
-    }
-}
-.usersbuttons a:hover{
-    background-color: var(--description-clr);
-}
 .adduser-header{
     p{
         font-weight: bold;
@@ -70,10 +14,56 @@ form{
         color: var(--description-clr);
     }
 }
+.add-users-list{
+    display: block;
+    width: 30%;
+    margin-top: 0;
+    box-sizing: inherit;
+    border: 1px solid var(--sidebar-clr);
+    background-color: var(--primary-clr);
+    border-radius: 14px;
+    overflow: auto;
+    padding-top: 5px;
+    .useroption:hover{
+        background-color: var(--secondary-clr);
+    }
+    .hide{
+        display: none;
+    }
+    .show{
+        display: flex;
+    }
+    .useroption{
+        padding: 5px;
+        font-size: 16px;
+        font-weight: 300;
+        label, input{
+            margin-left: 10px;
+        }
+    }
+}
+
+.usersbuttons{
+    display: flex;
+    border-top: 1px solid var(--sidebar-clr);
+    a{
+        padding: 3px 9px;
+        color: var(--text-clr);
+        font-size: 18px;
+        border: none;
+        border-right: 1px solid var(--sidebar-clr);
+        background-color: transparent;
+        cursor: pointer;
+    }
+}
+.usersbuttons a:hover{
+    background-color: var(--secondary-clr);
+}
+
 #inputusername{
     margin: 5px 40px;
-    background-color: var(--cards-clr);
-    border: 1px solid var(--button-border-clr);
+    background-color: var(--secondary-clr);
+    border: 1px solid var(--sidebar-clr);
     border-radius: 5px;
     font-size: 16px; 
     color: var(--text-clr);

@@ -5,6 +5,7 @@ let icons = {
     '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>',
 };
 let table = document.getElementById("transactionsbody");
+let tableHeader = document.getElementById("transactionsHead");
 let columns = ["id", "posted_date", "description", "subcategory_id", "user_id", "bank_id", "shared_amount", "amount"];
 
 // Notifications
@@ -25,26 +26,6 @@ function addNotification(category, text) {
   document.body.appendChild(notificationContainer);
 }
 
-// Import file
-function openImportFile() {
-  let body = document.getElementById("import-container");
-  fetch("/import")
-    .then(function (response) {
-      return response.text();
-    })
-    .then((html) => {
-      body.innerHTML = html;
-    });
-}
-window.onclick = (event) => {
-  if (event.target.matches(".popup-container-overlay")) {
-    let exists = document.getElementById("importfileform");
-    if (exists) {
-      exists.remove();
-    }
-  }
-};
-
 // Table Elements
 function createSelect() {
   // Create Element Select : Default select for transactions table.
@@ -60,7 +41,16 @@ function createSelect() {
 }
 
 function createSubcategorySelection(td, subcategories, selected_subcategory_id) {
+  console.log(selected_subcategory_id);
   let select = createSelect();
+  if (!selected_subcategory_id) {
+    let option = document.createElement("option");
+    option.innerHTML = "none";
+    option.value = "none";
+    option.selected = true;
+    option.style.backgroundColor = optionsBackground;
+    select.appendChild(option);
+  }
   let categories = {};
   for (let row of subcategories[0]) {
     if (!(row["category"] in categories)) {
@@ -135,30 +125,9 @@ function createBankSelection(td, banks, selected_bank_id) {
 }
 
 // API Related
-async function addTransaction() {
-  let transaction = {
-    posted_date: "2025-01-01",
-    description: "----",
-    user_id: 1,
-    bank_id: 1,
-    subcategory_id: 1,
-    shared_amount: 0,
-    amount: 0,
-  };
-  return fetch("/addtransaction", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(transaction),
-  })
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (data) {
-      return data;
-    });
-}
+
 async function deleteTransaction(transactionId) {
-  return fetch("/deletetransaction", {
+  return fetch("/deletetemporarytransaction", {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -200,7 +169,7 @@ async function getSubcategories() {
     });
 }
 async function getTransactions() {
-  return fetch("/alltransactions")
+  return fetch("/temporary-transactions")
     .then(function (response) {
       return response.json();
     })
@@ -342,7 +311,7 @@ let editable = {
   },
   selectDone: () => {
     editable.ccell.classList.remove("edit");
-    if (editable.cselect.value != editable.cval) {
+    if (editable.cselect.value != editable.cval && editable.cselect.value != "none") {
       let index = editable.cselect.selectedIndex;
       editable.cselect.style.backgroundColor = editable.cselect.options[index].dataset.color;
       let data = {
@@ -350,7 +319,7 @@ let editable = {
         column: editable.ccell.dataset.column,
         value: editable.cselect.value,
       };
-      fetch("/updatetransaction", {
+      fetch("/update-temporary-transaction", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -375,7 +344,7 @@ let editable = {
         column: editable.ccell.dataset.column,
         value: editable.ccell.innerHTML,
       };
-      fetch("/updatetransaction", {
+      fetch("/update-temporary-transaction", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -458,7 +427,7 @@ window.addEventListener("load", async () => {
   });
 
   // Sort rows by columns
-  for (let [index, column] of table.querySelectorAll("th").entries()) {
+  for (let [index, column] of tableHeader.querySelectorAll("th").entries()) {
     column.addEventListener("click", () => sortRows(index));
   }
 });

@@ -1,16 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');        
+
 :root{
-    --sidebar-clr: #1d2025 ;
-    --base-clr: #222831;
-    --cards-clr: #393E46;
-    --icons-clr: #F3EEEA;
-    --description-clr: #51565f;
-    --text-clr: #EEEEEE;
-    --title-clr: #F6F6F6;
-    --selected-clr: #B8572C;
-    --button-clr: #393E46;
-    --button-border-clr: #14161a;
+    --sidebar-clr: #1c1d22;
+    --primary-clr: #222327;
+    --secondary-clr: #2a2b2f;
+    --text-clr: #f6f7f9;
+    --description-clr: #6b6c70;
 }
+
 *{
     margin: 0;
     padding: 0;
@@ -20,110 +17,132 @@ html{
     font-family:  "Montserrat";
     line-height: 1.5rem;
 }
+
 body{
     min-height: 100vh;
     min-height: 100dvh;
-    background-color: var(--base-clr);
+    background-color: var(--secondary-clr);
     color: var(--text-clr);
     display: grid;
     grid-template-columns: auto 1fr;
 }
+
 main{
     padding: min(30px, 7%);
 }
-main h2{
-  font-weight: bold;
-  font-size:x-large;
-  color: var(--text-clr)
-}
-main p {
-    margin-top: 5px;
-    margin-bottom: 5px;
+main header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 95%;
+    padding: 25px 25px 15px;
+    position: relative;
+    border-bottom: 2px solid var(--description-clr);
+    h1{
+        color: var(--text-clr);
+        font-weight: bold;
+    }
+    p{
+        color: var(--description-clr);
+        margin-right: 56px;
+        font-size: 20px;
+    }
 }
 
-#sidebar{
+
+
+#sidebar {
     position: sticky;
     top: 0;
     box-sizing: border-box;
     height: 100vh;
     width: 50px;
     background-color: var(--sidebar-clr);
-    border-right: 1px solid var(--cards-clr);
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-#sidebar ul{
+#sidebar ul {
     list-style: none;
 }
 
-#sidebar ul li.active a{
-    color: var(--selected-clr);
-    svg{
-        fill: var(--selected-clr);
+#sidebar ul li.active a {
+    background-color: var(--secondary-clr);
+    border-radius: 100%;
+    svg {
+        fill: var(--text-clr);
     }
 }
 
-#sidebar a{
+#sidebar a {
     border-radius: .5em;
     text-decoration: none;
-    color: var(--icons-clr);
-    display:flex;
+    color: var(--secondary-clr);
+    display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 125%;
+    margin-bottom: 80%;
+    padding: 8px;
 }
 
-#sidebar svg{
+#sidebar svg {
     flex-shrink: 0;
-    fill: var(--icons-clr);
+    fill: var(--description-clr);
 }
 
-#sidebar a:hover{
-    svg{
-        fill: var(--selected-clr);
+#sidebar a:hover {
+    svg {
+        fill: var(--text-clr);
     }
 }
-/* Alerts */ 
-.alert-container{
+
+/* Alerts */
+.alert-container {
     position: fixed;
     display: flex;
     bottom: 20px;
     right: 20px;
 
 }
-.alert-error{
-  border-radius: 20px;
-  padding: 20px;
-  background-color: #D84040;
-  color: white;
-  margin-bottom: 15px;
-  box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.4);
+
+.alert-error {
+    border-radius: 20px;
+    padding: 20px;
+    background-color: var(--primary-clr);
+    svg{
+        fill: rgb(128, 31, 31);
+    };
+    color: white;
+    margin-bottom: 15px;
+    box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.4);
 }
 
-.alert-success{
-  border-radius: 20px;
-  padding: 20px;
-  background-color: #61876E;
-  color: white;
-  margin-bottom: 15px;
-  box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.4);
+.alert-success {
+    border-radius: 20px;
+    padding: 20px;
+    background-color: var(--primary-clr);
+    svg{
+        fill:rgb(37, 129, 37);
+    };
+    color: white;
+    margin-bottom: 15px;
+    box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.4);
 }
 
 /* The close button */
 .closebtn {
-  margin-left: 15px;
-  color: white;
-  font-weight: bold;
-  float: right;
-  font-size: 22px;
-  line-height: 20px;
-  cursor: pointer;
-  transition: 0.3s;
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
 /* When moving the mouse over the close button */
 .closebtn:hover {
-  color: black;
+    color: black;
 }

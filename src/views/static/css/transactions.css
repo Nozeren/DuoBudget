@@ -1,17 +1,6 @@
-.transactions-header-container{
-    margin-top: 5px;
+.header-buttons{
     display: flex;
-    justify-content: space-between;
-    padding: 25px 25px 15px;
-    position: relative;
-    border-bottom: 2px solid var(--selected-clr);
-    h1{
-        color: var(--title-clr);
-        font-weight: bold;
-    }
-    div{
-        display: flex;
-    }
+
     button{
        display: flex;
        color: var(--text-clr);
@@ -20,49 +9,185 @@
        font-size: 16px;
        justify-content: center;
        align-items: center;
-       background-color: var(--sidebar-clr);
-       border: 1px solid var(--button-border-clr);
+       background-color: var(--primary-clr);
+       border: 1px solid var(--sidebar-clr);
        border-radius: 8px;
        cursor: pointer;
+       transition: all 1.2s;
     }
     button:hover{
-        background-color: var(--selected-clr);
+       background-color: var(--secondary-clr);
+       border: 1px solid var(--description-clr);
     }
-}
-.transactions-content-container{
-    padding: 20px 25px;
-}
-table{
-    border: 1px solid var(--button-border-clr);
-    background-color: var(--cards-clr);
-    border-radius: 14px;
-    padding: 5px;
-    tr td{
-        padding: 5px 10px;
+    button span{
+        display: none;
+        transform: translateX(250px);
+        opacity: 0;
+        transition: opacity 0.1s;
     }
-    tbody tr th{
-        background-color: var(--cards-clr);
-        padding: 10px 10px;
-        align-items: center;
-        text-align: left;
-        position:sticky;
-        top: 0;
-    }
-    tr td{
-        border-bottom: 1px dashed var(--description-clr);
+    button:hover span{
+        display: inline-block;
+        opacity: 1;
+        transform: translateX(0);
     }
 }
 
-.sidemenu{
+.transactions-content-container{
+    #transactions-quantity{
+        color: var(--description-clr);
+        font-weight: bold;
+        font-size: 14px;
+    };
+    background-color: var(--primary-clr);
+    border: 0.5px, solid, var(--sidebar-clr);
+    border-radius: 14px;
+    margin-top: 27px;
+    padding: 15px;
+}
+
+.filter-container{
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
+    margin-bottom: 5px;
+}
+.date-pagination{
+    a:hover, input[type='month']:hover{
+        background-color: var(--primary-clr);
+        border: 1px solid var(--description-clr);
+
+    }
+    a, input[type='month']{
+        text-align: center;
+        border: 1px solid var(--sidebar-clr);
+        border-radius: 4px;
+        padding: 2px 7px;
+        background-color: var(--secondary-clr);
+        color: var(--text-clr);
+        font-size: 14px;
+        justify-content: center;
+        align-items: center;
+        background : "transparent";
+        cursor: pointer;
+        appearance : "none";
+        outline : "none";
+        font-weight: bold;
+    }
+    input[type="month"]::-webkit-inner-spin-button,
+    input[type="month"]::-webkit-calendar-picker-indicator {
+        display: none;
+        -webkit-appearance: none;
+    }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    background-color: "#61876E";
+  }
+  to {
+    opacity: 1;
+    background-color: transparent;
+  }
+}
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.transactions-container{
+    display: flex;
+    justify-content: center;
+
+}
+table{
+    background-color: var(--secondary-clr);
+    border-spacing: 0;
+    border-radius: 14px;
+    padding: 0 15px 5px;
+    
+    input[type="date"]{
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    thead tr th{
+        border-bottom: 1.5px solid var(--description-clr); 
+        background-color: var(--secondary-clr);
+        color: var(--description-clr);
+        padding: 10px 10px;
+        align-items: center;
+        text-align: left;
+        font-size: 13px;
+        position:sticky;
+        top: 0;
+        z-index: 100;
+    }
+    tr td{
+        padding: 5px 10px;
+        border-bottom: 1px dashed var(--description-clr);
+        font-size: 16px;
+        opacity: 0;
+        animation: fadeIn 0.8s ease-in forwards;
+        animation-delay: calc(0.3s * var(--index));
+        overflow: hidden;
+        overflow-wrap: break-word;
+    }
+    tbody tr td select{
+        font-family:  "Montserrat";
+        font-size: 16px;
+        border: none;
+        background: transparent;
+        outline: none;
+        appearance: none;
+        color: white;
+
+    }
+    tbody tr td select[data-color]{
+        font-size: 16px;
+        padding: 2px 6px;
+        border-radius: 8px;
+        text-align: center;
+    }
+    tbody tr td[data-currency]{
+        text-align: right;
+    }
+    tbody tr td span{
+        opacity: 0.8;
+        white-space: nowrap;
+    }
+
+    tbody tr td select optgroup, tbody tr td select option{
+        font-family:  "Montserrat";
+        background-color: #1d2025;
+    }
+
+    tbody tr:last-child td{
+        border-bottom: none;
+    }
+    .fade-out {animation: fadeOut 0.7s ease-out forwards;}
+    thead tr th:hover{cursor: pointer; color: var(--text-clr);}
+    tbody tr:hover{background-color: var(--primary-clr);}
+
+}
+
+.sidemenu{
     position:absolute;
     z-index: 99999;
-       border: 1px solid var(--button-border-clr);
-       background-color: var(--sidebar-clr);
+    border: 1.5px solid var(--description-clr);
+    background-color: var(--secondary-clr);
     border-radius: 14px;
     padding: 5px;
-    a{font-size: 18px; font-weight: bold;}
-    a:hover{cursor: pointer; color: var(--selected-clr);}
+    a{ 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        fill: var(--description-clr)
+    }
+    a:hover{cursor: pointer; fill: var(--text-clr);}
 }

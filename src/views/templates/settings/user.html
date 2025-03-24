@@ -4,32 +4,37 @@
 <title>Budget - Settings User</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/settings/user.css') }}">
 <script type="text/javascript" src="{{ url_for('static', filename='script/settings/user.js') }}" defer></script>
+<script type="text/javascript" src="{{ url_for('static', filename='script/api/users.js') }}" defer></script>
 {% endblock %}
 
 {% block body %}
 <script>
     document.getElementById("settings-li").classList.add("active");
 </script>
-<div class="settings-user-section">
-    <div class="header-section">
+<!-- Main -->
+<main>
+    <header>
         <h1>USERS</h1>
-        <p>2 users</p>
-    </div>
-
-    <div class="adduser-container">
-        <div class="adduser-header">
-            <h4>Add User</h4>
-            <p>Removing a user may delete and affect user data.</p>
-        </div>
-        <form id="userform" action="/settings/user" method="POST">
-            <div class="newuseroption" id="newuseroption"></div>
-            <div class="usersbuttons">
-                <a id="adduser"><strong>+</strong></a>
-                <a type="submit" id="removeuser"><strong>-</strong></a>
-                <a id="saveuser" name="saveuser" hidden>v</a>
-                <a id="canceluser" hidden>x</a>
+    </header>
+    <div class="settings-user-section">
+        <!--- Add users section --->
+        <section class="adduser-container">
+            <div class="adduser-header">
+                <h4>Add User</h4>
+                <p>Removing a user may delete and affect user data.</p>
             </div>
-        </form>
+            <div id="addUsersList" class="add-users-list">
+                <div class="newuseroption" id="newuseroption"></div>
+                <div class="usersbuttons">
+                    <a class="show" id="adduser"><strong>+</strong></a>
+                    <a class="show" type="submit" id="removeuser"><strong>-</strong></a>
+                    <a id="saveuser" name="saveuser" class="hide">v</a>
+                    <a id="canceluser" class="hide">x</a>
+                </div>
+            </div>
+        </section>
+        <!--- End Add users section --->
     </div>
-</div>
+</main>
+<!-- End  Main -->
 {% endblock %}
