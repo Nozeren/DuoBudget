@@ -2,7 +2,14 @@
 
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/transactions.css') }}">
-<script type="text/javascript" src="{{ url_for('static', filename='script/verify.js') }}" defer></script>
+<script type="text/javascript" src="{{ url_for('static', filename='script/import/verify.js') }}" defer></script>
+<script type="text/javascript" src="{{ url_for('static', filename='script/transactions/rows.js') }}" defer></script>
+<script type="text/javascript" src="{{ url_for('static', filename='script/transactions/cell_editor.js') }}" defer></script>
+<script type="text/javascript" src="{{ url_for('static', filename='script/transactions/side-menu.js') }}" defer></script>
+<script type="text/javascript" src="{{ url_for('static', filename='script/api/users.js') }}" defer></script>
+<script type="text/javascript" src="{{ url_for('static', filename='script/api/temporary_transactions.js') }}" defer></script>
+<script type="text/javascript" src="{{ url_for('static', filename='script/api/subcategories.js') }}" defer></script>
+<script type="text/javascript" src="{{ url_for('static', filename='script/api/banks.js') }}" defer></script>
 {% endblock %}
 
 {% block body %}
@@ -14,29 +21,31 @@
 <main>
     <!-- Header Main -->
     <header>
-        <h1>VERIFY</h1>
+        <h1>IMPORT FILE</h1>
         <div class="header-buttons">
-            <button title="Import file" onclick="openImportFile();addOptions();">
+            <button id="savebtn" title="Save data">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path
                         d="M840-680v480q0 33-23.5 56.5T760-120H200q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h480l160 160Zm-80 34L646-760H200v560h560v-446ZM480-240q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35ZM240-560h360v-160H240v160Zm-40-86v446-560 114Z" /></svg>
                 <span>Save</span>
             </button>
         </div>
-
     </header>
     <!-- End Header Main -->
     <section class="transactions-content-container">
+        <div class="filter-container">
+            <p id="transactions-quantity"></p>
+        </div>
         <div class="transactions-container">
             <table class="transactions" id="transactionstable">
                 <thead id="transactionsHead">
                     <tr>
-                        <th>ID</th>
-                        <th>Posted Date</th>
+                        <th>Id</th>
+                        <th>Date</th>
                         <th>Description</th>
                         <th>Subcategory</th>
                         <th>User</th>
-                        <th>Bank</th>
-                        <th>Shared Amount</th>
+                        <th>Account</th>
+                        <th>Amount Shared</th>
                         <th>Amount</th>
                     </tr>
                 </thead>
@@ -46,4 +55,6 @@
         </div>
         <div id="import-container"></div>
     </section>
-    {% endblock %}
+</main>
+<!-- End  Main -->
+{% endblock %}

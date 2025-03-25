@@ -36,6 +36,14 @@ function createDateCell(currentDate) {
 function createSelectCell(data, optionColumn, defaultOption, color = false, optionGroup = false, groupColumn = undefined) {
   let groups = {};
   let select = document.createElement("select");
+  if (!defaultOption) {
+    let optionElement = document.createElement("option");
+    optionElement.innerText = "Needs a category";
+    select.classList.add("uncategorized");
+    optionElement.select = true;
+    select.appendChild(optionElement);
+  }
+
   for (let row of data) {
     // Create option
     let optionElement = document.createElement("option");
@@ -77,63 +85,60 @@ function formatDate(date) {
 }
 function addCell(transaction) {
   let tr;
-  let transactionDate = transaction["posted_date"];
-  if (transactionDate <= lastDay && transactionDate >= firstDay) {
-    tr = document.createElement("tr");
-    // Add Side Menu to row
-    tr.addEventListener("mouseover", () => sideMenu.display(tr));
-    // Add Cells
-    let column = "id";
-    let td = document.createElement("td");
-    td.innerHTML = transaction[column];
-    td.dataset.row_id = transaction["id"];
-    td.dataset.column = column;
-    tr.appendChild(td);
-    column = "posted_date";
-    td = createDateCell(transaction[column]);
-    td.dataset.row_id = transaction["id"];
-    td.dataset.column = column;
-    tr.appendChild(td);
-    column = "description";
-    td = document.createElement("td");
-    td.innerText = transaction[column];
-    td.dataset.row_id = transaction["id"];
-    td.dataset.column = column;
-    tr.appendChild(td);
-    column = "subcategory_id";
-    td = createSelectCell(subcategories, "subcategory", transaction[column], false, true, "category");
-    td.dataset.row_id = transaction["id"];
-    td.dataset.column = column;
-    tr.appendChild(td);
-    column = "user_id";
-    td = createSelectCell(users, "name", transaction[column], true);
-    td.dataset.row_id = transaction["id"];
-    td.dataset.column = column;
-    tr.appendChild(td);
-    column = "bank_id";
-    td = createSelectCell(banks, "name", transaction[column], true, true, "country");
-    td.dataset.row_id = transaction["id"];
-    td.dataset.column = column;
-    tr.appendChild(td);
-    column = "shared_amount";
-    td = document.createElement("td");
-    td.innerText = transaction[column] + "€";
-    td.dataset.currency = true;
-    td.dataset.row_id = transaction["id"];
-    td.dataset.column = column;
-    td.classList.add(transaction[column] === 0 ? "shadow" : "positive");
-    tr.appendChild(td);
-    column = "amount";
-    td = document.createElement("td");
-    td.innerText = transaction[column] + "€";
-    td.dataset.currency = true;
-    td.dataset.row_id = transaction["id"];
-    td.dataset.column = column;
+  tr = document.createElement("tr");
+  // Add Side Menu to row
+  tr.addEventListener("mouseover", () => sideMenu.display(tr));
+  // Add Cells
+  let column = "id";
+  let td = document.createElement("td");
+  td.innerHTML = transaction[column];
+  td.dataset.row_id = transaction["id"];
+  td.dataset.column = column;
+  tr.appendChild(td);
+  column = "posted_date";
+  td = createDateCell(transaction[column]);
+  td.dataset.row_id = transaction["id"];
+  td.dataset.column = column;
+  tr.appendChild(td);
+  column = "description";
+  td = document.createElement("td");
+  td.innerText = transaction[column];
+  td.dataset.row_id = transaction["id"];
+  td.dataset.column = column;
+  tr.appendChild(td);
+  column = "subcategory_id";
+  td = createSelectCell(subcategories, "subcategory", transaction[column], false, true, "category");
+  td.dataset.row_id = transaction["id"];
+  td.dataset.column = column;
+  tr.appendChild(td);
+  column = "user_id";
+  td = createSelectCell(users, "name", transaction[column], true);
+  td.dataset.row_id = transaction["id"];
+  td.dataset.column = column;
+  tr.appendChild(td);
+  column = "bank_id";
+  td = createSelectCell(banks, "name", transaction[column], true, true, "country");
+  td.dataset.row_id = transaction["id"];
+  td.dataset.column = column;
+  tr.appendChild(td);
+  column = "shared_amount";
+  td = document.createElement("td");
+  td.innerText = transaction[column] + "€";
+  td.dataset.currency = true;
+  td.dataset.row_id = transaction["id"];
+  td.dataset.column = column;
+  td.classList.add(transaction[column] === 0 ? "shadow" : "positive");
+  tr.appendChild(td);
+  column = "amount";
+  td = document.createElement("td");
+  td.innerText = transaction[column] + "€";
+  td.dataset.currency = true;
+  td.dataset.row_id = transaction["id"];
+  td.dataset.column = column;
 
-    tr.dataset.row_id = transaction["id"];
-    tr.appendChild(td);
-    transactionsCount++;
-  }
+  tr.dataset.row_id = transaction["id"];
+  tr.appendChild(td);
+  transactionsCount++;
   return tr;
 }
 
@@ -142,18 +147,15 @@ function addTransactionsToTable(transactions) {
   while (tableBody.rows.length > 0) {
     tableBody.deleteRow(0);
   }
-  // Fill Transactions Table
-  // --- Get First and Last day of current month.
-  let [year, month] = getDatePickerValue();
-  firstDay = new Date(year, month - 1, 1).toISOString().split("T")[0];
-  lastDay = new Date(year, month, 0).toISOString().split("T")[0];
 
   // --- Create Rows
   let tbody = document.getElementById("transactionsbody");
   transactionsCount = 0;
   transactions.forEach((transaction) => {
     let tr = addCell(transaction);
-    document.getElementById("transactions-quantity").innerText = `Transactions (${transactionsCount})`;
+    document.getElementById(
+      "transactions-quantity"
+    ).innerHTML = `<strong>${transactionsCount}</strong> new transactions to import, approve or categorize.`;
     if (tr) {
       tbody.appendChild(tr);
     }
@@ -173,7 +175,7 @@ function addEvents() {
   document.querySelectorAll("td").forEach((td) => {
     if (td.querySelector("select")) {
       td.querySelector("select").addEventListener("click", () => editable.select(td));
-    } else {
+    } else if (!td.querySelector("span")) {
       td.addEventListener("click", () => editable.edit(td));
     }
   });
@@ -181,12 +183,18 @@ function addEvents() {
   for (let [index, column] of tableHeader.querySelectorAll("th").entries()) {
     column.addEventListener("click", () => sortRows(index));
   }
+  document.getElementById("savebtn").addEventListener("click", async () => {
+    let saved = await saveImport();
+    if (saved) {
+      transactions = await getTransactions();
+      addTransactionsToTable(transactions);
+    }
+  });
 }
 window.addEventListener("load", async () => {
   banks = await getBanks();
   users = await getUsers();
   subcategories = await getSubcategories();
   transactions = await getTransactions();
-  await addDateToPicker(transactions);
   addTransactionsToTable(transactions);
 });

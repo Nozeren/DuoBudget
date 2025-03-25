@@ -173,7 +173,20 @@ table{
     .fade-out {animation: fadeOut 0.7s ease-out forwards;}
     thead tr th:hover{cursor: pointer; color: var(--text-clr);}
     tbody tr:hover{background-color: var(--primary-clr);}
+    tbody tr td:hover{text-decoration: underline;}
 
+    .shadow{
+        color: var(--description-clr);
+    }
+    .uncategorized{
+        font-size: 16px;
+        padding: 2px 6px;
+        border-radius: 8px;
+        text-align: center;
+        font-weight: bold;
+        color: rgb(179, 32, 32);
+        background-color:  rgb(238, 126, 126);
+    }
 }
 
 .sidemenu{

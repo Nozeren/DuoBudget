@@ -32,6 +32,12 @@ async def update_transaction():
     return jsonify({'result': 'Sucess'}, result.status_code)
 
 
+@app.route('/saveimport', methods=['PUT'])
+async def saveImport():
+    result = requests.put(f'{API_URL}/transactions/saveImport')
+    return jsonify(result.json(), result.status_code)
+
+
 @app.route('/addtransaction', methods=['POST', 'GET'])
 async def add_transaction():
     data = request.get_json()

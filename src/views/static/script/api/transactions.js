@@ -46,3 +46,13 @@ async function getTransactions() {
       return data[0];
     });
 }
+
+async function updateTransactions(data) {
+  return fetch("/updatetransaction", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+}

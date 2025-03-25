@@ -55,6 +55,7 @@ function updateDatePickerButtons() {
 }
 
 dateRightButton.addEventListener("click", () => {
+  let [year, month] = getDatePickerValue();
   month++;
   if (month > 12) {
     month = 1;
@@ -69,6 +70,7 @@ dateRightButton.addEventListener("click", () => {
   updateDatePickerButtons();
 });
 dateLeftButton.addEventListener("click", () => {
+  let [year, month] = getDatePickerValue();
   month--;
   if (month < 1) {
     month = 12;

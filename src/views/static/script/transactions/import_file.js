@@ -22,7 +22,7 @@ async function addOptions() {
   }
 }
 
-function openImportFile() {
+async function openImportFile() {
   let body = document.getElementById("import-container");
   fetch("/import")
     .then(function (response) {

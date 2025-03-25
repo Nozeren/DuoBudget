@@ -46,17 +46,19 @@ function sortRows(index) {
   let dir = "asc";
   while (switching) {
     switching = false;
-    for (i = 1; i < rows.length - 1; i++) {
+    for (i = 0; i < rows.length; i++) {
       let toSwitch = false;
       let currentRow, nexRow;
-      if (rows[i].querySelectorAll("td")[index].innerHTML.includes("select")) {
-        let current = rows[i].querySelectorAll("td")[index].querySelector("select");
-        let next = rows[i + 1].querySelectorAll("td")[index].querySelector("select");
-        currentRow = current.options[current.selectedIndex].innerHTML.toLowerCase();
-        nexRow = next.options[next.selectedIndex].innerHTML.toLowerCase();
-      } else {
-        currentRow = rows[i].querySelectorAll("td")[index].innerHTML.toLowerCase();
-        nexRow = rows[i + 1].querySelectorAll("td")[index].innerHTML.toLowerCase();
+      if (rows[i + 1]) {
+        if (rows[i].querySelectorAll("td")[index].innerHTML.includes("select")) {
+          let current = rows[i].querySelectorAll("td")[index].querySelector("select");
+          let next = rows[i + 1].querySelectorAll("td")[index].querySelector("select");
+          currentRow = current.options[current.selectedIndex].innerHTML.toLowerCase();
+          nexRow = next.options[next.selectedIndex].innerHTML.toLowerCase();
+        } else {
+          currentRow = rows[i].querySelectorAll("td")[index].innerHTML.toLowerCase();
+          nexRow = rows[i + 1].querySelectorAll("td")[index].innerHTML.toLowerCase();
+        }
       }
       if (dir == "asc") {
         if (currentRow > nexRow) {

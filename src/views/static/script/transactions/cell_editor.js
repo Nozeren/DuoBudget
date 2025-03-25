@@ -32,40 +32,30 @@ let editable = {
       }
     };
   },
-  dateDone: (input, cell) => {
+  dateDone: async (input, cell) => {
+    let value = input.value;
     let data = {
       row_id: cell.dataset.row_id,
       column: cell.dataset.column,
-      value: input.value,
+      value: value,
     };
-    fetch("/updatetransaction", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+    await updateTransactions(data);
   },
-  selectDone: () => {
+  selectDone: async () => {
     editable.ccell.classList.remove("edit");
     if (editable.cselect.value != editable.cval) {
       let index = editable.cselect.selectedIndex;
       editable.cselect.style.borderColor = editable.cselect.options[index].dataset.color;
+      editable.cselect.classList.remove("uncategorized");
       let data = {
         row_id: editable.ccell.dataset.row_id,
         column: editable.ccell.dataset.column,
         value: editable.cselect.value,
       };
-      fetch("/updatetransaction", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      await updateTransactions(data);
     }
   },
-  done: (discard) => {
+  done: async (discard) => {
     editable.ccell.onblur = "";
     editable.ccell.onkeydown = "";
 
@@ -81,13 +71,7 @@ let editable = {
         column: editable.ccell.dataset.column,
         value: editable.ccell.innerHTML,
       };
-      fetch("/updatetransaction", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      await updateTransactions(data);
     }
     if (editable.ccell.dataset.currency) {
       editable.ccell.innerHTML += "€";
