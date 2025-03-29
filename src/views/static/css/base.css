@@ -28,7 +28,7 @@ body{
 }
 
 main{
-    padding: min(30px, 7%);
+    margin: min(30px, 7%);
 }
 main header{
     display: flex;

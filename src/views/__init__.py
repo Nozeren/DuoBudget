@@ -7,3 +7,4 @@ from views import settings_user
 from views import banks
 from views import transactions 
 from views import import_file 
+from views import budget 

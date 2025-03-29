@@ -1,11 +1,48 @@
 {% extends 'base.html' %}
 
 {% block head %}
-
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+<!-- API -->
+<script type="text/javascript" src="{{ url_for('static', filename='script/api/subcategories.js') }}" defer></script>
+<script type="text/javascript" src="{{ url_for('static', filename='script/api/budget.js') }}" defer></script>
+<script type="text/javascript" src="{{ url_for('static', filename='script/home/index.js') }}" defer></script>
 {% endblock %}
 
 {% block body %}
 <script>
     document.getElementById("dashboard-li").classList.add("active");
 </script>
+
+<!-- Main -->
+<main>
+    <header>
+        <h1>Budget</h1>
+    </header>
+
+    <section class="budget-table">
+        <div class="budget-table-header">
+            <div class="budget-table-header-labels">
+                <div class="budget-table-cell category">
+                    Category
+                </div>
+                <div class="budget-table-cell assigned">
+                    Assigned
+                </div>
+                <div class="budget-table-cell activity">
+                    Activity
+                </div>
+                <div class="budget-table-cell available">
+                    Available
+                </div>
+            </div>
+        </div>
+        <div class="budget-table-rows-container">
+            <div class="budget-table-rows">
+
+            </div>
+        </div>
+    </section>
+    <aside></aside>
+</main>
+<!-- End Main -->
 {% endblock %}
