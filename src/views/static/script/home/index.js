@@ -1,10 +1,9 @@
 let tableRows = document.querySelector(".budget-table-rows");
+let budget;
 function removeBorderSubcategory() {
   //style last subcategory rows
   document.querySelectorAll(".budget-table-row-category").forEach((div) => {
-    console.log(div);
     let prev = div.previousElementSibling;
-    console.log(prev);
     if (prev && prev.classList.contains("budget-table-row-subcategory")) {
       prev.style.border = "none";
     }
@@ -70,7 +69,7 @@ function addRows(budget) {
   }
 }
 window.addEventListener("load", async () => {
-  let budget = await getBudget();
+  budget = await getBudget();
   addRows(budget);
   removeBorderSubcategory();
 });

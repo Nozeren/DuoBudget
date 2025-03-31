@@ -1,8 +1,75 @@
+.date-pagination{
+    display: flex;
+    align-items: center;
+    a:hover, input[type='month']:hover{
+        background-color: var(--secondary-clr);
+        color: var(--text-clr);
+        svg{fill: var(--text-clr);}
+    }
+    a, input[type='month']{
+        display: flex;
+        font-size: 1.14em;
+        padding: 0 8px;
+        text-align: center;
+        border: none;
+        border-radius: 4px;
+        background-color: transparent;
+        color: var(--description-clr);
+        justify-content: center;
+        align-items: center;
+        background : "transparent";
+        cursor: pointer;
+        appearance : "none";
+        outline : "none";
+        font-weight: bold;
+        svg{
+            fill: var(--description-clr);
+        }
+    }
+    input[type="month"]::-webkit-inner-spin-button,
+    input[type="month"]::-webkit-calendar-picker-indicator {
+        display: none;
+        -webkit-appearance: none;
+    }
+}
+.header-buttons{
+    display: flex;
+    button{
+       display: flex;
+       color: var(--text-clr);
+       padding: 3px 9px;
+       margin-right: 10px;
+       font-size: 1.14em;
+       justify-content: center;
+       align-items: center;
+       background-color: transparent;
+       border: none;
+       border-radius: 8px;
+       cursor: pointer;
+    }
+    svg{
+        fill: var(--description-clr);
+    }
+    button:hover{
+       background-color: var(--secondary-clr);
+       svg{
+        fill: var(--text-clr)
+       }
+    }
+}
+.budget-table-and-organizer{
+    margin: 0.8rem 0 0 0;
+    display: flex;
+    width: 100%;
+}
 .budget-table{
-    margin: 2rem 0 0 0;
     background-color: var(--primary-clr);
     border-radius: 14px;
     padding: 2rem;
+    width: 75%;
+}
+.organizer{
+    width: 25%;
 }
 .budget-table-header{
     position: sticky;

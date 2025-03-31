@@ -10,7 +10,7 @@ let addNew = {
       if (status_code == 201) {
         let tr = addCell(transaction);
         tableBody.prepend(tr);
-        addNotification("success", `${icons.add}Transaction Added: <strong>${transaction["id"]}</strong>`);
+        addNotification("success", `${icons.add}Transaction&nbsp;<strong>${transaction["id"]}</strong>&nbsp;added`);
         addEvents();
       } else {
         addNotification("error", `Error: ${transaction}`);
@@ -29,7 +29,7 @@ let removeRow = {
         "animationend",
         () => {
           row.remove();
-          addNotification("success", `${icons.trash} Transaction Deleted: ${id}`);
+          addNotification("success", `${icons.trash} Transaction&nbsp;<strong>${id}</strong>&nbsp;deleted `);
         },
         { once: true }
       );

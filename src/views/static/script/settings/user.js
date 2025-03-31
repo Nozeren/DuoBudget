@@ -46,14 +46,7 @@ async function updateUsers() {
         form.insertBefore(div, newUserOption);
       }
     }
-    let usersQuantity = document.createElement("p");
-    usersQuantity.innerText = data.length + " users";
-    let header = document.querySelector("header");
-    let p = header.querySelector("p");
-    if (p) {
-      p.remove();
-    }
-    header.appendChild(usersQuantity);
+    document.getElementById("users-quantity").innerText = data.length;
   });
 }
 

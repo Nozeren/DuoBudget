@@ -1,11 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');        
-
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 :root{
     --sidebar-clr: #1c1d22;
     --primary-clr: #222327;
     --secondary-clr: #2a2b2f;
     --text-clr: #f6f7f9;
     --description-clr: #6b6c70;
+    --warning-clr: #FB4141;
+    --success-clr:#81A263;
 }
 
 *{
@@ -14,38 +15,52 @@
 }
 
 html{
-    font-family:  "Montserrat";
+    font-family:  "Roboto";
     line-height: 1.5rem;
 }
 
 body{
+    line-height: 1.5;
     min-height: 100vh;
     min-height: 100dvh;
-    background-color: var(--secondary-clr);
+    background-color: var(--primary-clr);
     color: var(--text-clr);
     display: grid;
     grid-template-columns: auto 1fr;
 }
-
+h1,
+h2,
+h3,
+p,
+ul,
+ol {
+    margin: 0 0 1rem;
+}
 main{
-    margin: min(30px, 7%);
 }
 main header{
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 95%;
-    padding: 25px 25px 15px;
+    margin: .8rem 2rem;
     position: relative;
-    border-bottom: 2px solid var(--description-clr);
-    h1{
+    h4{
         color: var(--text-clr);
         font-weight: bold;
+        span{
+            font-weight: normal;
+            color: var(--description-clr);
+            padding-left: .3rem;
+            color: var(--description-clr);
+            font-weight: 600;
+            font-size: 14px;
+        }
     }
     p{
         color: var(--description-clr);
         margin-right: 56px;
-        font-size: 20px;
+        font-size: 16px;
     }
 }
 
@@ -102,38 +117,39 @@ main header{
     position: fixed;
     display: flex;
     bottom: 20px;
-    right: 20px;
+    left: 5rem;
 
 }
 
-.alert-error {
-    border-radius: 20px;
-    padding: 20px;
-    background-color: var(--primary-clr);
-    svg{
-        fill: rgb(128, 31, 31);
-    };
-    color: white;
+.alert-error, .alert-success{
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    color: var(--text-clr);
     margin-bottom: 15px;
     box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.4);
+    padding: 20px;
+    background-color: var(--secondary-clr);
+    svg{
+        margin-right: 1rem;
+    }
+}
+.alert-error {
+    svg{
+        fill: var(--warning-clr);
+    };
 }
 
 .alert-success {
-    border-radius: 20px;
-    padding: 20px;
-    background-color: var(--primary-clr);
     svg{
-        fill:rgb(37, 129, 37);
+        fill: var(--success-clr);
     };
-    color: white;
-    margin-bottom: 15px;
-    box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.4);
 }
 
 /* The close button */
 .closebtn {
     margin-left: 15px;
-    color: white;
+    color: var(--description-clr);
     font-weight: bold;
     float: right;
     font-size: 22px;
@@ -144,5 +160,5 @@ main header{
 
 /* When moving the mouse over the close button */
 .closebtn:hover {
-    color: black;
+    color: var(--text-clr);
 }

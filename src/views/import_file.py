@@ -25,13 +25,13 @@ async def verify():
 async def import_file():
     if request.method == "POST":
         file = request.files['file']
+        filename = secure_filename(file.filename)
         if not await allowed_file(file_name=file.filename):
             flash(
                 f'Incorrect file format. Required file format: {list(ALLOWED_EXTENSIONS)}', 'error')
             return redirect(url_for('transactions'))
         user_id = request.form.get('user')
         bank_id = request.form.get('bank')
-        filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         bank = requests.get(f'{API_URL}/banks/{bank_id}').json()
         for plugin in app.banks_plugins:
@@ -44,6 +44,7 @@ async def import_file():
                 except:
                     flash(
                         f"Incorrect file. File doesn't match with selected bank", "error")
+                    os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
                     return redirect(url_for('transactions'))
                 # Insert IDs
                 dataframe = plugin.dataframe

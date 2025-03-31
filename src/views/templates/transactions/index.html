@@ -23,25 +23,21 @@
 <main>
     <!-- Header Main -->
     <header>
-        <h1>TRANSACTIONS</h1>
+        <h4>Transactions <span id="transactions-quantity"></span></h4>
         <div class="header-buttons">
             <button id="addButton" title="Add row" onclick="addNew.row();">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path
                         d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" /></svg>
-                <span>Add row</span>
-
             </button>
             <button id="importButton" title="Import file" onclick="openImportFile();addOptions();">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path
                         d="M440-160v-326L336-382l-56-58 200-200 200 200-56 58-104-104v326h-80ZM160-600v-120q0-33 23.5-56.5T240-800h480q33 0 56.5 23.5T800-720v120h-80v-120H240v120h-80Z" /></svg>
-                <span>Import</span>
             </button>
         </div>
     </header>
     <!-- End Header Main -->
     <section class="transactions-content-container">
         <div class="filter-container">
-            <p id="transactions-quantity"></p>
             <div class="date-pagination">
                 <a id="date-pagination-left"><span><</span></a>
                 <input type="month" id="datePicker">

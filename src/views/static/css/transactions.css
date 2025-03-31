@@ -1,73 +1,44 @@
 .header-buttons{
     display: flex;
-
     button{
        display: flex;
        color: var(--text-clr);
        padding: 3px 9px;
        margin-right: 10px;
-       font-size: 16px;
        justify-content: center;
        align-items: center;
-       background-color: var(--primary-clr);
-       border: 1px solid var(--sidebar-clr);
+       background-color: transparent;
+       border: none;
        border-radius: 8px;
        cursor: pointer;
-       transition: all 1.2s;
     }
     button:hover{
        background-color: var(--secondary-clr);
-       border: 1px solid var(--description-clr);
     }
-    button span{
-        display: none;
-        transform: translateX(250px);
-        opacity: 0;
-        transition: opacity 0.1s;
-    }
-    button:hover span{
-        display: inline-block;
-        opacity: 1;
-        transform: translateX(0);
-    }
+
 }
 
 .transactions-content-container{
-    
-    background-color: var(--primary-clr);
-    border: 0.5px, solid, var(--sidebar-clr);
-    border-radius: 14px;
-    margin-top: 27px;
-    padding: 15px;
+    margin: 0 5px;
 }
 
 .filter-container{
     display: flex;
     align-items: center;
-    margin-bottom: 5px;
-    #transactions-quantity{
-        flex: 1;
-        padding-left: 1rem;
-        color: var(--description-clr);
-        font-weight: 600;
-        font-size: 14px;
-    };
+    justify-content: center;
 }
 .date-pagination{
-    width: 55%;
     a:hover, input[type='month']:hover{
-        background-color: var(--primary-clr);
-        border: 1px solid var(--description-clr);
-
+        background-color: var(--secondary-clr);
     }
     a, input[type='month']{
         text-align: center;
-        border: 1px solid var(--sidebar-clr);
+        border: none;
         border-radius: 4px;
-        padding: 2px 7px;
-        background-color: var(--secondary-clr);
+        padding: 10px 7px;
+        background-color: transparent;
         color: var(--text-clr);
-        font-size: 14px;
+        font-size: 16px;
         justify-content: center;
         align-items: center;
         background : "transparent";
@@ -180,7 +151,6 @@ table{
     .fade-out {animation: fadeOut 0.7s ease-out forwards;}
     thead tr th:hover{cursor: pointer; color: var(--text-clr);}
     tbody tr:hover{background-color: var(--secondary-clr);}
-    tbody tr td:hover{text-decoration: underline;}
 
     .shadow{
         color: var(--description-clr);
@@ -199,15 +169,14 @@ table{
 .sidemenu{
     position:absolute;
     z-index: 99999;
-    border: 1.5px solid var(--description-clr);
-    background-color: var(--secondary-clr);
-    border-radius: 14px;
     padding: 5px;
+    width: 5rem;
+    display: flex;
+    justify-content:flex-start;
     a{ 
         display: flex;
-        justify-content: center;
         align-items: center;
         fill: var(--description-clr)
     }
-    a:hover{cursor: pointer; fill: var(--text-clr);}
+    a:hover{cursor: pointer; fill: var(--warning-clr);}
 }

@@ -153,7 +153,7 @@ function addTransactionsToTable(transactions) {
   transactionsCount = 0;
   transactions.forEach((transaction) => {
     let tr = addCell(transaction);
-    document.getElementById("transactions-quantity").innerText = `Transactions (${transactionsCount})`;
+    document.getElementById("transactions-quantity").innerText = transactionsCount;
     if (tr) {
       tbody.appendChild(tr);
     }

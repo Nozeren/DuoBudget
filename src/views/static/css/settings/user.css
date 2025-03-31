@@ -8,6 +8,9 @@
 }
 
 .adduser-header{
+    h4{
+    border-bottom: 2px solid var(--secondary-clr);
+    }
     p{
         font-weight: bold;
         font-size: 12px;
@@ -19,13 +22,13 @@
     width: 30%;
     margin-top: 0;
     box-sizing: inherit;
-    border: 1px solid var(--sidebar-clr);
-    background-color: var(--primary-clr);
+    border: 2px solid var(--secondary-clr);
     border-radius: 14px;
     overflow: auto;
     padding-top: 5px;
     .useroption:hover{
         background-color: var(--secondary-clr);
+        cursor: pointer;
     }
     .hide{
         display: none;
@@ -45,13 +48,13 @@
 
 .usersbuttons{
     display: flex;
-    border-top: 1px solid var(--sidebar-clr);
+    border-top: 1px solid var(--secondary-clr);
     a{
         padding: 3px 9px;
         color: var(--text-clr);
         font-size: 18px;
         border: none;
-        border-right: 1px solid var(--sidebar-clr);
+        border-right: 1px solid var(--secondary-clr);
         background-color: transparent;
         cursor: pointer;
     }

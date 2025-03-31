@@ -17,7 +17,7 @@ async function addDateToPicker(transactions) {
   // First date in transactions as reference
   if (transactions[0]) {
     lastDate = new Date(transactions[0][dateColumnName]);
-    firstDate = new Date(transactions[0][dateColumnName]);
+    firstDate = new Date(transactions[1][dateColumnName]);
     // Get first and last date in transactions to fill Date picker/filter
     transactions.forEach((transaction) => {
       currentDate = new Date(transaction[dateColumnName]);
