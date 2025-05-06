@@ -13,9 +13,9 @@ let editable = {
   edit: (cell) => {
     editable.ccell = cell;
     if (cell.dataset.currency) {
-      cell.innerHTML = cell.innerHTML.replace("€", "");
+      cell.innerText = cell.innerText.replace("€", "");
     }
-    editable.cval = cell.innerHTML;
+    editable.cval = cell.innerText;
 
     cell.classList.add("edit");
     cell.contentEditable = true;
@@ -63,18 +63,20 @@ let editable = {
     editable.ccell.contentEditable = false;
 
     if (discard === 1) {
-      editable.ccell.innerHTML = editable.cval;
+      editable.ccell.innerText = editable.cval;
     }
-    if (editable.ccell.innerHTML != editable.cval) {
+    if (editable.ccell.innerText != editable.cval) {
+      editable.ccell.title = editable.ccell.innerText;
       let data = {
         row_id: editable.ccell.dataset.row_id,
         column: editable.ccell.dataset.column,
-        value: editable.ccell.innerHTML,
+        value: editable.ccell.innerText,
       };
       await updateTransactions(data);
     }
     if (editable.ccell.dataset.currency) {
-      editable.ccell.innerHTML += "€";
+      editable.ccell.innerText += "€";
+      editable.ccell.title += "€";
     }
   },
 };

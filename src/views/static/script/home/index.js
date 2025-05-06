@@ -1,21 +1,24 @@
-let tableRows = document.querySelector(".budget-table-rows");
-let budget;
-function removeBorderSubcategory() {
-  //style last subcategory rows
-  document.querySelectorAll(".budget-table-row-category").forEach((div) => {
-    let prev = div.previousElementSibling;
-    if (prev && prev.classList.contains("budget-table-row-subcategory")) {
-      prev.style.border = "none";
-    }
-  });
-}
+// Remove Border From
+document.querySelectorAll(".budget-table-row-category").forEach((div) => {
+  let prev = div.previousElementSibling;
+  if (prev && prev.classList.contains("budget-table-row-subcategory")) {
+    prev.style.border = "none";
+  }
+});
+
 function formatNullValue(value) {
   if (!value) {
     return 0;
   }
   return value;
 }
-function addRows(budget) {
+async function addRows() {
+  while (tableRows.firstChild) {
+    tableRows.removeChild(tableRows.firstChild);
+  }
+  let [year, month] = await getDatePickerValue();
+  let user_id = document.getElementById("user_filter").value;
+  let budget = await getBudget(user_id, month, year);
   let categories = {};
   let categoriesAmounts = {};
   let subcategories = {};
@@ -38,6 +41,15 @@ function addRows(budget) {
       if (column != "subcategory") {
         cell.innerText += "€";
       }
+      if (column == "available") {
+        if (row[column] > 0) {
+          cell.classList.add("positive");
+        } else if (row[column] < 0) {
+          cell.classList.add("negative");
+        } else {
+          cell.classList.add("inactive");
+        }
+      }
       subcategoryRow.appendChild(cell);
       categoriesAmounts[currentCategory][column] += formatNullValue(row[column]);
     }
@@ -54,6 +66,7 @@ function addRows(budget) {
       categories[currentCategory].appendChild(cell);
     }
   });
+  // Add Rows to table element
   for (category of Object.keys(categories)) {
     for (column of ["assigned", "activity", "available"]) {
       cell = document.createElement("div");
@@ -67,9 +80,13 @@ function addRows(budget) {
       tableRows.appendChild(subcategoryRow);
     }
   }
+  removeBorderTransaction();
+}
+async function addData() {
+  await setupUserFilter();
+  await setupDatePicker();
+  await addRows();
 }
 window.addEventListener("load", async () => {
-  budget = await getBudget();
-  addRows(budget);
-  removeBorderSubcategory();
+  await addData();
 });

@@ -1,5 +1,10 @@
-async function getBudget() {
-  return fetch("/budget")
+async function getBudget(user_id, month, year) {
+  let data = { user_id: user_id, month: month, year: year };
+  return fetch("/budget", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  })
     .then(function (response) {
       return response.json();
     })

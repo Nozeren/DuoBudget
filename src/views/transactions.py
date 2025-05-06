@@ -18,11 +18,25 @@ async def get_subcategories():
     results = requests.get(f'{API_URL}/subcategories/')
     return jsonify(results.json(), results.status_code)
 
-
-@app.route('/alltransactions', methods=['GET'])
-async def get_transactions():
-    results = requests.get(f'{API_URL}/transactions/')
+@app.route('/accounts', methods=['GET'])
+async def get_accounts():
+    results = requests.get(f'{API_URL}/accounts')
     return jsonify(results.json(), results.status_code)
+
+
+@app.route('/alltransactions', methods=['GET', 'POST'])
+async def get_transactions():
+    data = request.get_json()
+    data = {key:int(value) for key, value in data.items()}
+    results = requests.get(f'{API_URL}/transactions/', json=data)
+    return jsonify(results.json(), results.status_code)
+
+@app.route('/transactions-dates/<user_id>', methods=['GET'])
+async def get_transactions_dates(user_id):
+    results = requests.get(f'{API_URL}/transactions/getfirstlastdate/{user_id}')
+    return jsonify(results.json(), results.status_code)
+
+
 
 
 @app.route('/updatetransaction', methods=['PUT'])
@@ -45,7 +59,7 @@ async def add_transaction():
                            json={'posted_date': data['posted_date'],
                                  'description': data['description'],
                                  'user_id': data['user_id'],
-                                 'bank_id': data['bank_id'],
+                                 'account_id': data['account_id'],
                                  'subcategory_id': data['subcategory_id'],
                                  'shared_amount': data['shared_amount'],
                                  'amount': data['amount']})

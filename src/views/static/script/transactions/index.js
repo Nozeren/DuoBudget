@@ -1,16 +1,21 @@
-// Main Variables
-const table = document.getElementById("transactionstable");
-let tableBody = document.getElementById("transactionsbody");
-const tableHeader = document.getElementById("transactionsHead");
-let firstDay, lastDay, transactionsCount;
-let banks;
+let tableRows = document.querySelector(".transactions-table-rows");
 let subcategories;
-let users;
-let transactions;
-
-// Transactions
-function createDateCell(currentDate) {
-  let cellDate = document.createElement("td");
+function removeBorderTransaction() {
+  // Remove Border From last transaction in table before next Account Row
+  document.querySelectorAll(".transactions-table-row-account").forEach((div) => {
+    let prev = div.previousElementSibling;
+    if (prev && prev.classList.contains("transactions-table-row-transaction")) {
+      prev.style.border = "none";
+    }
+  });
+}
+function formatDate(date) {
+  if (!isNaN(date)) {
+    let options = { month: "short", day: "numeric", year: "numeric" };
+    return date.toLocaleDateString("en-US", options);
+  }
+}
+function createDateCell(cell, currentDate) {
   let spanDate = document.createElement("span");
   let dateInput = document.createElement("input");
   dateInput.type = "date";
@@ -21,21 +26,27 @@ function createDateCell(currentDate) {
   dateInput.addEventListener("change", function () {
     let date = new Date(this.value);
     spanDate.innerText = formatDate(date);
-    editable.dateDone(dateInput, cellDate);
+    editable.dateDone(dateInput, cell);
     dateInput.focus();
   });
-  cellDate.addEventListener("click", function () {
+  cell.addEventListener("click", function () {
     dateInput.showPicker();
   });
-  cellDate.appendChild(spanDate);
-  cellDate.appendChild(dateInput);
-  return cellDate;
+  cell.appendChild(spanDate);
+  cell.appendChild(dateInput);
+  return cell;
 }
-
-// Style cell with color
-function createSelectCell(data, optionColumn, defaultOption, color = false, optionGroup = false, groupColumn = undefined) {
+function createSelectCell(cell, data, optionColumn, defaultOption, color = false) {
   let groups = {};
   let select = document.createElement("select");
+  let optionGroups = {
+    subcategory: "category",
+  };
+  let optionElement = document.createElement("option");
+  optionElement.innerHTML = "Choose a category";
+  select.style.color = "red";
+  optionElement.selected = true;
+  select.appendChild(optionElement);
   for (let row of data) {
     // Create option
     let optionElement = document.createElement("option");
@@ -47,146 +58,117 @@ function createSelectCell(data, optionColumn, defaultOption, color = false, opti
 
     if (row["id"] == defaultOption) {
       optionElement.selected = true;
+      select.style.color = "white";
     }
-    if (optionGroup && groupColumn != undefined) {
+    if (Object.keys(optionGroups).includes(optionColumn)) {
       // Create optiongroups and save
-      if (!(row[groupColumn] in groups)) {
+      if (!(row[optionGroups[optionColumn]] in groups)) {
         let optgroup = document.createElement("optgroup");
-        optgroup.label = row[groupColumn];
-        groups[row[groupColumn]] = optgroup;
+        optgroup.label = row[optionGroups[optionColumn]];
+        groups[row[optionGroups[optionColumn]]] = optgroup;
       }
-      groups[row[groupColumn]].appendChild(optionElement);
+      groups[row[optionGroups[optionColumn]]].appendChild(optionElement);
     } else {
       select.appendChild(optionElement);
     }
   }
-  if (optionGroup && groupColumn != undefined) {
+  if (Object.keys(optionGroups).includes(optionColumn)) {
     for (let group of Object.keys(groups)) {
       select.appendChild(groups[group]);
     }
   }
-  let td = document.createElement("td");
-  td.appendChild(select);
-  return td;
+  cell.addEventListener("click", () => editable.select(cell));
+  cell.appendChild(select);
+  return cell;
 }
-function formatDate(date) {
-  if (!isNaN(date)) {
-    let options = { month: "short", day: "numeric", year: "numeric" };
-    return date.toLocaleDateString("en-US", options);
+function createInputCell(cell, value) {
+  cell.innerText = value;
+  cell.title = value;
+  cell.addEventListener("click", () => editable.edit(cell));
+  return cell;
+}
+async function addRows() {
+  // Remove Existent rows
+  while (tableRows.firstChild) {
+    tableRows.removeChild(tableRows.firstChild);
+  }
+  subcategories = await getSubcategories();
+  let [year, month] = await getDatePickerValue();
+  let user_id = document.getElementById("user_filter").value;
+  let transactions = await getTransactions(user_id, year, month);
+  if (transactions.length) {
+    document.getElementById("empty-rows").style.display = "none";
+    let accounts = {};
+    let transactionsElements = {};
+    transactions.forEach((row) => {
+      let currentAccount = row["account_name"];
+      // Row Element
+      let transactionRow = document.createElement("div");
+      transactionRow.dataset.row_id = row["id"];
+      transactionRow.classList.add("transactions-table-row-transaction");
+      // Columns
+      for (column of ["posted_date", "description", "subcategory_id", "shared_amount", "amount"]) {
+        let cell = document.createElement("div");
+        cell.classList.add("transactions-table-cell");
+        cell.classList.add(column);
+        cell.dataset.column = column;
+        cell.dataset.row_id = row["id"];
+        if (column == "posted_date") {
+          cell = createDateCell(cell, row[column]);
+        } else if (["description"].includes(column)) {
+          cell = createInputCell(cell, row[column]);
+        } else if (["shared_amount", "amount"].includes(column)) {
+          cell.dataset.currency = true;
+          cell = createInputCell(cell, row[column] + "€");
+        } else {
+          cell = createSelectCell(cell, subcategories, "subcategory", row[column], false);
+        }
+        transactionRow.appendChild(cell);
+      }
+      // Add bank account to Transactions Elements
+      if (!Object.keys(transactionsElements).includes(currentAccount)) {
+        transactionsElements[currentAccount] = [];
+      }
+      transactionRow.addEventListener("mouseover", async () => await menu.button(transactionRow));
+      // Add Rows to Transactions Elements of current Bank Account
+      transactionsElements[currentAccount].push(transactionRow);
+      // Create Table for current account if doesn't exist
+      if (!Object.keys(accounts).includes(currentAccount)) {
+        let accountRow = document.createElement("div");
+        accountRow.classList.add("transactions-table-row-account");
+        accounts[currentAccount] = accountRow;
+        let cell = document.createElement("div");
+        cell.classList.add("transactions-table-cell");
+        cell.classList.add("account");
+        cell.innerText = row["account_name"];
+        accounts[currentAccount].appendChild(cell);
+      }
+      //
+      for (let account of Object.keys(accounts)) {
+        tableRows.appendChild(accounts[account]);
+        for (element of transactionsElements[account]) {
+          tableRows.appendChild(element);
+        }
+      }
+      removeBorderTransaction();
+    });
+  } else {
+    document.getElementById("empty-rows").style.display = "flex";
   }
 }
-function addCell(transaction) {
-  let tr;
-  let transactionDate = transaction["posted_date"];
-  if (transactionDate <= lastDay && transactionDate >= firstDay) {
-    tr = document.createElement("tr");
-    // Add Side Menu to row
-    tr.addEventListener("mouseover", () => sideMenu.display(tr));
-    // Add Cells
-    let column = "id";
-    let td = document.createElement("td");
-    td.innerHTML = transaction[column];
-    td.dataset.row_id = transaction["id"];
-    td.dataset.column = column;
-    tr.appendChild(td);
-    column = "posted_date";
-    td = createDateCell(transaction[column]);
-    td.dataset.row_id = transaction["id"];
-    td.dataset.column = column;
-    tr.appendChild(td);
-    column = "description";
-    td = document.createElement("td");
-    td.innerText = transaction[column];
-    td.dataset.row_id = transaction["id"];
-    td.dataset.column = column;
-    tr.appendChild(td);
-    column = "subcategory_id";
-    td = createSelectCell(subcategories, "subcategory", transaction[column], false, true, "category");
-    td.dataset.row_id = transaction["id"];
-    td.dataset.column = column;
-    tr.appendChild(td);
-    column = "user_id";
-    td = createSelectCell(users, "name", transaction[column], true);
-    td.dataset.row_id = transaction["id"];
-    td.dataset.column = column;
-    tr.appendChild(td);
-    column = "bank_id";
-    td = createSelectCell(banks, "name", transaction[column], true, true, "country");
-    td.dataset.row_id = transaction["id"];
-    td.dataset.column = column;
-    tr.appendChild(td);
-    column = "shared_amount";
-    td = document.createElement("td");
-    td.innerText = transaction[column] + "€";
-    td.dataset.currency = true;
-    td.dataset.row_id = transaction["id"];
-    td.dataset.column = column;
-    td.classList.add(transaction[column] === 0 ? "shadow" : "positive");
-    tr.appendChild(td);
-    column = "amount";
-    td = document.createElement("td");
-    td.innerText = transaction[column] + "€";
-    td.dataset.currency = true;
-    td.dataset.row_id = transaction["id"];
-    td.dataset.column = column;
-
-    tr.dataset.row_id = transaction["id"];
-    tr.appendChild(td);
-    transactionsCount++;
-  }
-  return tr;
-}
-
-function addTransactionsToTable(transactions) {
-  // Remove rows from Table
-  while (tableBody.rows.length > 0) {
-    tableBody.deleteRow(0);
-  }
-  // Fill Transactions Table
-  // --- Get First and Last day of current month.
-  let [year, month] = getDatePickerValue();
-  firstDay = new Date(year, month - 1, 1).toISOString().split("T")[0];
-  lastDay = new Date(year, month, 0).toISOString().split("T")[0];
-
-  // --- Create Rows
-  let tbody = document.getElementById("transactionsbody");
-  transactionsCount = 0;
-  transactions.forEach((transaction) => {
-    let tr = addCell(transaction);
-    document.getElementById("transactions-quantity").innerText = transactionsCount;
-    if (tr) {
-      tbody.appendChild(tr);
-    }
-  });
-  addEvents();
-}
-
-function addEvents() {
-  document.querySelectorAll("td select").forEach((el) => {
-    // Add Color to Cells
-    if (el.selectedOptions[0].dataset.color) {
-      el.style.border = "1px solid " + el.selectedOptions[0].dataset.color;
-      el.dataset.color = el.selectedOptions[0].dataset.color;
-    }
-  });
-  // Add Event to cells
-  document.querySelectorAll("td").forEach((td) => {
-    if (td.querySelector("select")) {
-      td.querySelector("select").addEventListener("click", () => editable.select(td));
-    } else {
-      td.addEventListener("click", () => editable.edit(td));
-    }
-  });
-  // Sort rows by columns
-  for (let [index, column] of tableHeader.querySelectorAll("th").entries()) {
-    column.addEventListener("click", () => sortRows(index));
-  }
+async function addData() {
+  await setupUserFilter();
+  await addUnverified();
+  await setupDatePicker();
+  await addRows();
 }
 window.addEventListener("load", async () => {
-  banks = await getBanks();
-  users = await getUsers();
-  subcategories = await getSubcategories();
-  transactions = await getTransactions();
-  await addDateToPicker(transactions);
-  addTransactionsToTable(transactions);
+  await addData();
 });
+
+window.onclick = (event) => {
+  //Responsible to close popups
+  closeSideMenu(event);
+  closeImportFile(event);
+  closeSaveNewPopup(event);
+};

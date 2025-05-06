@@ -1,15 +1,4 @@
-async function addTransaction() {
-  let currentDate = datePicker.value;
-  let [year, month] = currentDate.split("-").map(Number);
-  let transaction = {
-    posted_date: `${year}-${month}-01`,
-    description: "----",
-    user_id: 1,
-    bank_id: 1,
-    subcategory_id: 1,
-    shared_amount: 0,
-    amount: 0,
-  };
+async function addTransaction(transaction) {
   return fetch("/addtransaction", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -37,8 +26,13 @@ async function deleteTransaction(transactionId) {
       return data;
     });
 }
-async function getTransactions() {
-  return fetch("/alltransactions")
+async function getTransactions(user_id, year, month) {
+  let data = { user_id: user_id, month: month, year: year };
+  return fetch("/alltransactions", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  })
     .then(function (response) {
       return response.json();
     })
@@ -55,4 +49,25 @@ async function updateTransactions(data) {
     },
     body: JSON.stringify(data),
   });
+}
+
+async function getDates(user_id) {
+  return fetch(`/transactions-dates/${user_id}`)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      return data[0];
+    });
+}
+
+async function getUnverified(user_id) {
+  return fetch(`/temporary-transactions-dates/${user_id}`)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log(data);
+      return data[0];
+    });
 }

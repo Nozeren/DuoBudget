@@ -3,21 +3,7 @@
     width: 95%;
 }
 
-.adduser-container{
-    padding: 20px 40px;
-}
-
-.adduser-header{
-    h4{
-    border-bottom: 2px solid var(--secondary-clr);
-    }
-    p{
-        font-weight: bold;
-        font-size: 12px;
-        color: var(--description-clr);
-    }
-}
-.add-users-list{
+.users-list{
     display: block;
     width: 30%;
     margin-top: 0;

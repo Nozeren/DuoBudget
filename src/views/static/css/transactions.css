@@ -1,182 +1,465 @@
-.header-buttons{
-    display: flex;
-    button{
-       display: flex;
-       color: var(--text-clr);
-       padding: 3px 9px;
-       margin-right: 10px;
-       justify-content: center;
-       align-items: center;
-       background-color: transparent;
-       border: none;
-       border-radius: 8px;
-       cursor: pointer;
-    }
-    button:hover{
-       background-color: var(--secondary-clr);
-    }
-
+#user_filter {
+    border: none;
+    background: transparent;
+    outline: none;
+    border-radius: 8px;
+    color: var(--description-clr);
+    padding: 5px 0 5px 5px;
+    text-align: center;
+    font-size: 1em;
+    margin-left: 1.4em;
 }
 
-.transactions-content-container{
-    margin: 0 5px;
+#user_filter:hover {
+    background-color: var(--secondary-clr);
+    color: var(--text-clr);
+    cursor: pointer;
 }
 
-.filter-container{
+#unverifiedTransactions {
+    color: var(--warning-clr);
+    text-decoration: none;
+    font-weight: normal;
+    border-radius: 8px;
+    background-color: var(--secondary-clr);
+    padding: 5px 10px;
+    opacity: 0.83;
+}
+
+#unverifiedTransactions:hover {
+    opacity: 1;
+}
+
+.date-pagination {
     display: flex;
     align-items: center;
-    justify-content: center;
-}
-.date-pagination{
-    a:hover, input[type='month']:hover{
+
+    a:hover,
+    input[type='month']:hover {
         background-color: var(--secondary-clr);
+        color: var(--text-clr);
+
+        svg {
+            fill: var(--text-clr);
+        }
     }
-    a, input[type='month']{
+
+    a,
+    input[type='month'] {
+        display: flex;
+        font-size: 1.14em;
+        padding: 0 8px;
         text-align: center;
         border: none;
         border-radius: 4px;
-        padding: 10px 7px;
         background-color: transparent;
-        color: var(--text-clr);
-        font-size: 16px;
+        color: var(--description-clr);
         justify-content: center;
         align-items: center;
-        background : "transparent";
+        background: "transparent";
         cursor: pointer;
-        appearance : "none";
-        outline : "none";
+        appearance: "none";
+        outline: "none";
         font-weight: bold;
+
+        svg {
+            fill: var(--description-clr);
+        }
     }
+
     input[type="month"]::-webkit-inner-spin-button,
     input[type="month"]::-webkit-calendar-picker-indicator {
         display: none;
         -webkit-appearance: none;
     }
 }
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    background-color: "#61876E";
-  }
-  to {
-    opacity: 1;
-    background-color: transparent;
-  }
-}
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
 
-.transactions-container{
+.header-buttons {
     display: flex;
-    justify-content: center;
 
+    button {
+        display: flex;
+        color: var(--text-clr);
+        padding: 3px 9px;
+        margin-right: 10px;
+        font-size: 1.14em;
+        justify-content: center;
+        align-items: center;
+        background-color: transparent;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    svg {
+        fill: var(--description-clr);
+    }
+
+    button:hover {
+        background-color: var(--secondary-clr);
+
+        svg {
+            fill: var(--text-clr)
+        }
+    }
 }
-table{
-    border-spacing: 0;
+
+.transactions-table-and-organizer {
+    margin: 0.8rem 0 0 0;
+    display: flex;
+    width: 100%;
+}
+
+.transactions-table {
+    background-color: var(--primary-clr);
     border-radius: 14px;
-    padding: 0 15px 5px;
-    
-    input[type="date"]{
+    padding: 2rem;
+    width: 75%;
+}
+
+.organizer {
+    width: 25%;
+}
+
+.transactions-table-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: var(--primary-clr);
+}
+
+.transactions-table-header-labels {
+    width: 100%;
+    display: flex;
+    overflow: hidden;
+    box-sizing: border-box;
+    padding-bottom: 0.2rem;
+
+    .transactions-table-cell {
+        font-weight: 500;
+        text-transform: uppercase;
+        font-size: 14px;
+        color: var(--description-clr);
+    }
+}
+
+.transactions-table-cell {
+    align-items: center;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.description {
+    flex: 1;
+    box-sizing: border-box;
+    text-align: left;
+    padding: 0 0 0 .875rem;
+    width: auto;
+}
+
+.shared_amount,
+.amount {
+    justify-content: flex-end;
+    text-align: right;
+    width: 18%;
+}
+
+.empty-rows {
+    margin-top: 4rem;
+    justify-content: center;
+}
+
+.transactions-table-row-transaction>*[contenteditable="true"] {
+    border: none;
+}
+
+.subcategory_id,
+.subcategory_name {
+    justify-content: flex-start;
+    text-align: left;
+    width: 18%;
+}
+
+.posted_date {
+    padding: 0 1rem 0 1rem;
+    flex: .3;
+    overflow: hidden;
+}
+
+.subcategory_id,
+.subcategory_name {
+    padding: 0 0 0 1rem;
+}
+
+.amount {
+    padding: 0 4rem 0 1rem;
+}
+
+.transactions-table-row-account,
+.transactions-table-row-transaction {
+    width: 100%;
+    display: flex;
+    overflow: hidden;
+    box-sizing: border-box;
+
+    input[type="date"] {
         position: absolute;
         opacity: 0;
         width: 0;
         height: 0;
     }
 
-    thead tr th{
-        text-transform: uppercase;
-        background-color: var(--primary-clr);
-        color: var(--description-clr);
-        font-weight: 500;
-        text-transform: uppercase;
-        font-size: 14px;
-        overflow: hidden;
-        padding: 10px 10px;
-        align-items: center;
-        text-align: left;
-        position:sticky;
-        top: 0;
-        z-index: 100;
-    }
-    tr td{
-        border-bottom: 2px dashed var(--secondary-clr);
-        padding: 5px 10px;
-        font-size: 0.93rem;
-        font-weight: 300;
-        opacity: 0;
-        animation: fadeIn 0.8s ease-in forwards;
-        animation-delay: calc(0.3s * var(--index));
-        overflow: hidden;
-        overflow-wrap: break-word;
-    }
-    tbody tr td select{
-        font-family:  "Montserrat";
+    select {
+        font-family: "Montserrat";
         font-size: 0.93rem;
         font-weight: 300;
         border: none;
         background: transparent;
         outline: none;
         appearance: none;
-        color: white;
+        color: var(--text-clr);
 
-    }
-    tbody tr td select[data-color]{
-        font-size: 16px;
-        padding: 2px 6px;
-        border-radius: 8px;
-        text-align: center;
-    }
-    tbody tr td[data-currency]{
-        text-align: right;
-    }
-    tbody tr td span{
-        opacity: 0.8;
-        white-space: nowrap;
-    }
-
-    tbody tr td select optgroup, tbody tr td select option{
-        font-family:  "Montserrat";
-        background-color: #1d2025;
-    }
-
-    tbody tr:last-child td{
-        border-bottom: none;
-    }
-    .fade-out {animation: fadeOut 0.7s ease-out forwards;}
-    thead tr th:hover{cursor: pointer; color: var(--text-clr);}
-    tbody tr:hover{background-color: var(--secondary-clr);}
-
-    .shadow{
-        color: var(--description-clr);
-    }
-    .uncategorized{
-        font-size: 16px;
-        padding: 2px 6px;
-        border-radius: 8px;
-        text-align: center;
-        font-weight: bold;
-        color: rgb(179, 32, 32);
-        background-color:  rgb(238, 126, 126);
+        optgroup,
+        option {
+            background-color: #1d2025;
+        }
     }
 }
 
-.sidemenu{
-    position:absolute;
+.transactions-table-row-account {
+    background-color: var(--secondary-clr);
+    padding: 0.3rem 0;
+    border-radius: 6px;
+    margin-top: 10px;
+}
+
+.transactions-table-row-account:first-of-type {
+    margin-top: 0;
+}
+
+.transactions-table-row-account .account {
+    font-weight: 500;
+    font-size: 1rem;
+    padding-left: 1rem;
+}
+
+
+
+.transactions-table-row-transaction:last-of-type {
+    border-bottom: none;
+}
+
+.transactions-table-row-transaction {
+    font-size: 0.93rem;
+    font-weight: 300;
+    border-bottom: 2px dashed var(--secondary-clr);
+}
+
+.positive {
+    color: var(--success-clr);
+}
+
+.negative {
+    color: var(--warning-clr);
+}
+
+.inactive {
+    color: var(--description-clr);
+}
+
+.sidemenu {
+    position: absolute;
     z-index: 99999;
     padding: 5px;
-    width: 5rem;
+    width: 2rem;
     display: flex;
-    justify-content:flex-start;
-    a{ 
+    justify-content: flex-end;
+
+    a {
         display: flex;
         align-items: center;
         fill: var(--description-clr)
     }
-    a:hover{cursor: pointer; fill: var(--warning-clr);}
+
+    a:hover {
+        cursor: pointer;
+        fill: var(--text-clr)
+    }
+}
+
+.menu-row-overlay,
+.save-new-transaction-overlay {
+    display: none;
+    justify-content: right;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 99999;
+    width: 100%;
+    height: 100%;
+}
+
+.menu-row {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    background: var(--secondary-clr);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--primary-clr);
+    border-radius: 10px;
+    width: 220px;
+    padding-left: .5rem;
+    padding-bottom: .3rem;
+
+    .menu-row-details {
+        width: 90%;
+        margin-top: .6rem;
+        padding-top: .4rem;
+        margin-bottom: .6rem;
+        font-size: 12px;
+        color: var(--description-clr);
+        border-top: 1px solid var(--description-clr);
+    }
+
+    .menu-row-button {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 90%;
+        margin-top: 6px;
+        cursor: pointer;
+        padding: .4rem;
+        border-radius: 8px;
+
+        .row-menu-button-symbol,
+        .row-menu-button-text {
+            font-size: 0.83rem;
+            fill: var(--description-clr);
+            color: var(--text-clr)
+        }
+    }
+
+    .menu-row-button:hover,
+    .selected {
+        background-color: var(--primary-clr);
+
+        .row-menu-button-symbol {
+            fill: var(--text-clr);
+        }
+    }
+
+    .warning.selected:hover,
+    .warning.selected {
+
+        .row-menu-button-symbol,
+        .row-menu-button-text {
+            fill: var(--warning-clr);
+            color: var(--warning-clr);
+        }
+
+    }
+}
+
+.save-new-transaction-overlay {
+    justify-content: flex-end;
+}
+
+.menu-row-user {
+    font-size: 12px;
+    color: var(--description-clr);
+    margin-top: 5px;
+}
+
+.save-new-transaction-container {
+    display: flex;
+    position: absolute;
+    top: 3rem;
+    background: var(--secondary-clr);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--description-clr);
+    border-radius: 10px;
+    width: 320px;
+    padding-left: 2rem;
+    margin-right: 1rem;
+}
+
+
+
+.save-new-transaction-form {
+    display: flex;
+    flex-direction: column;
+
+    h4 {
+        margin: 1.2rem 0 .8rem;
+    }
+
+    select {
+        width: 95%;
+        padding: 5px;
+        margin-bottom: .5rem;
+        border: 1px solid var(--sidebar-clr);
+        color: var(--text-clr);
+        border-radius: 8px;
+        font-size: 1rem;
+        box-sizing: border-box;
+        background-color: var(--primary-clr);
+        cursor: pointer;
+
+        option {
+            color: var(--text-clr);
+        }
+    }
+
+    input {
+        font-size: 14px;
+        background-color: var(--primary-clr);
+        cursor: pointer;
+        color: var(--text-clr);
+        border: 1px solid var(--sidebar-clr);
+        border-radius: 8px;
+        padding: 5px;
+    }
+
+    input[type="number"] {
+        width: 45%;
+        overflow: hidden;
+    }
+
+    button {
+        display: flex;
+        width: 95%;
+        color: var(--text-clr);
+        padding: 3px 9px;
+        font-size: 16px;
+        justify-content: center;
+        align-items: center;
+        background-color: transparent;
+        border: 1px solid var(--sidebar-clr);
+        background-color: var(--primary-clr);
+        border-radius: 8px;
+        cursor: pointer;
+        margin-bottom: 1.2rem;
+        margin-top: .5rem;
+    }
+
+    input:hover,
+    select:hover,
+    button:hover {
+        border-color: var(--description-clr);
+    }
+}
+
+/*Animations*/
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+.fade-out {
+    animation: fadeOut 0.7s ease-out forwards;
 }

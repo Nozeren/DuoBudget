@@ -18,6 +18,9 @@ async def allowed_file(file_name):
 
 @app.route('/verify', methods=['POST', 'GET'])
 async def verify():
+    user_id = request.args.get('user_id')
+    if user_id:
+        return render_template('import/verify.html', user_id=user_id)
     return render_template('import/verify.html')
 
 
@@ -32,6 +35,7 @@ async def import_file():
             return redirect(url_for('transactions'))
         user_id = request.form.get('user')
         bank_id = request.form.get('bank')
+        account_id = int(request.form.get("account"))
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         bank = requests.get(f'{API_URL}/banks/{bank_id}').json()
         for plugin in app.banks_plugins:
@@ -49,20 +53,21 @@ async def import_file():
                 # Insert IDs
                 dataframe = plugin.dataframe
                 dataframe.insert(3, "user_id", user_id)
-                dataframe.insert(4, "bank_id", bank_id)
+                dataframe.insert(4, "account_id", account_id)
                 data = [tuple(row) for row in dataframe.values]
                 data = json.dumps(data)
                 requests.post(f'{API_URL}/temporary-transactions/', json={
                               'data': data, 'columns': json.dumps(list(dataframe.columns))})
-                return redirect('/verify')
+                return redirect(url_for('verify', user_id= user_id))
     return render_template('import/file.html')
 
 
-@app.route('/temporary-transactions', methods=['GET'])
+@app.route('/get-temporary-transactions', methods=['GET', 'POST'])
 async def get_temporary_transactions():
-    results = requests.get(f'{API_URL}/temporary-transactions/')
+    data = request.get_json()
+    data = {key:int(value) for key, value in data.items()}
+    results = requests.get(f'{API_URL}/temporary-transactions/', json=data)
     return jsonify(results.json(), results.status_code)
-
 
 @app.route('/update-temporary-transaction', methods=['PUT'])
 async def update_temporary_transaction():
@@ -76,3 +81,9 @@ async def delete_temporary_transaction():
     data = request.get_json()
     result = requests.delete(f'{API_URL}/temporary-transactions/{data["id"]}')
     return jsonify(result.json(), result.status_code)
+
+@app.route('/temporary-transactions-dates/<user_id>', methods=['GET'])
+async def get_temporary_transactions_dates(user_id):
+    results = requests.get(f'{API_URL}/temporary-transactions/getfirstlastdate/{user_id}')
+    return jsonify(results.json(), results.status_code)
+

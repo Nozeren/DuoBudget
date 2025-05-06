@@ -1,0 +1,24 @@
+.list-container {
+    padding: 20px 40px;
+}
+
+.list-container-header {
+    h4 {
+        border-bottom: 2px solid var(--secondary-clr);
+    }
+
+    p {
+        font-weight: bold;
+        font-size: 12px;
+        color: var(--description-clr);
+    }
+}
+
+.list-container-content {
+    display: flex;
+    width: 40%;
+    box-sizing: inherit;
+    border: 2px solid var(--secondary-clr);
+    border-radius: 14px;
+    overflow: auto;
+}

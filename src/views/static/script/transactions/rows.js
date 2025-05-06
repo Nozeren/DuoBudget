@@ -1,21 +1,94 @@
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+function addOptionsToNew(selectElement, data, optionColumn, defaultOption) {
+  while (selectElement.firstChild) {
+    selectElement.removeChild(selectElement.firstChild);
+  }
+  let groups = {};
+  let optionGroups = {
+    subcategory: "category",
+    name: "user_name",
+  };
+  let dataset = {
+    subcategory: "category_id",
+    name: "user_id",
+  };
+  for (let row of data) {
+    // Create option
+    let optionElement = document.createElement("option");
+    optionElement.innerHTML = row[optionColumn];
+    optionElement.value = row["id"];
+    optionElement.dataset[optionGroups[optionColumn]] = row[dataset[optionColumn]];
+    if (row["id"] == defaultOption) {
+      optionElement.selected = true;
+    }
+    if (Object.keys(optionGroups).includes(optionColumn)) {
+      // Create optiongroups and save
+      if (!(row[optionGroups[optionColumn]] in groups)) {
+        let optgroup = document.createElement("optgroup");
+        optgroup.label = row[optionGroups[optionColumn]];
+        groups[row[optionGroups[optionColumn]]] = optgroup;
+      }
+      groups[row[optionGroups[optionColumn]]].appendChild(optionElement);
+    } else {
+      selectElement.appendChild(optionElement);
+    }
+  }
+  if (Object.keys(optionGroups).includes(optionColumn)) {
+    for (let group of Object.keys(groups)) {
+      selectElement.appendChild(groups[group]);
+    }
+  }
+  return selectElement;
+}
 let addNew = {
   row: async () => {
-    if (!document.querySelector("#addrow")) {
-      tr = document.createElement("tr");
-      tr.addEventListener("mouseover", () => sideMenu.display(tr));
-      let transaction = await addTransaction();
-      let status_code = transaction[1];
-      transaction = transaction[0];
-      if (status_code == 201) {
-        let tr = addCell(transaction);
-        tableBody.prepend(tr);
-        addNotification("success", `${icons.add}Transaction&nbsp;<strong>${transaction["id"]}</strong>&nbsp;added`);
-        addEvents();
-      } else {
-        addNotification("error", `Error: ${transaction}`);
+    let overlay = document.getElementById("save-new-overlay");
+    overlay.style.display = "flex";
+    let subcategory = document.getElementById("subcategory");
+    let subcategories = await getSubcategories();
+    addOptionsToNew(subcategory, subcategories, "subcategory", undefined);
+    let accounts = await getAccounts();
+    let account = document.getElementById("account");
+    addOptionsToNew(account, accounts, "name", undefined);
+    let saveButton = document.getElementById("saveButton");
+    saveButton.onclick = async () => {
+      let description = document.getElementById("description").value;
+      if (!description) {
+        alert("Description must be filled out");
+        return;
       }
-    }
+      let date = document.getElementById("date-new").value;
+      if (!date) {
+        alert("Date must be filled out");
+        return;
+      }
+      let subcategory_id = subcategory.value;
+      let index = account.selectedIndex;
+      let user_id = account.options[index].dataset.user_name;
+      let account_id = account.value;
+      let shared_amount = document.getElementById("shared_amount").value;
+      if (!shared_amount) {
+        alert("Shared Amount must be filled out");
+        return;
+      }
+      let amount = document.getElementById("amount").value;
+      if (!amount) {
+        alert("Amount must be filled out");
+        return;
+      }
+      let transaction = {
+        posted_date: date,
+        description: description,
+        user_id: user_id,
+        account_id: account_id,
+        subcategory_id: subcategory_id,
+        shared_amount: shared_amount,
+        amount: amount,
+      };
+      await addTransaction(transaction);
+      overlay.style.display = "none";
+      await addRows();
+    };
   },
 };
 
@@ -39,46 +112,12 @@ let removeRow = {
   },
 };
 
-function sortRows(index) {
-  let rows = tableBody.rows;
-  let switching = true;
-  let switchCount = 0;
-  let dir = "asc";
-  while (switching) {
-    switching = false;
-    for (i = 0; i < rows.length; i++) {
-      let toSwitch = false;
-      let currentRow, nexRow;
-      if (rows[i + 1]) {
-        if (rows[i].querySelectorAll("td")[index].innerHTML.includes("select")) {
-          let current = rows[i].querySelectorAll("td")[index].querySelector("select");
-          let next = rows[i + 1].querySelectorAll("td")[index].querySelector("select");
-          currentRow = current.options[current.selectedIndex].innerHTML.toLowerCase();
-          nexRow = next.options[next.selectedIndex].innerHTML.toLowerCase();
-        } else {
-          currentRow = rows[i].querySelectorAll("td")[index].innerHTML.toLowerCase();
-          nexRow = rows[i + 1].querySelectorAll("td")[index].innerHTML.toLowerCase();
-        }
-      }
-      if (dir == "asc") {
-        if (currentRow > nexRow) {
-          toSwitch = true;
-        }
-      } else if (dir == "dsc") {
-        if (currentRow < nexRow) {
-          toSwitch = true;
-        }
-      }
-      if (toSwitch) {
-        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-        switching = true;
-        switchCount++;
-      } else {
-        if (switchCount == 0 && dir == "asc") {
-          dir = "dsc";
-          switching = true;
-        }
-      }
+function closeSaveNewPopup(event) {
+  if (event.target.matches(".save-new-transaction-overlay")) {
+    let exists = document.getElementById("save-new-form");
+    if (exists) {
+      let overlay = document.getElementById("save-new-overlay");
+      overlay.style.display = "none";
     }
   }
 }

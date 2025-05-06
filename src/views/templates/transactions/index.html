@@ -2,16 +2,19 @@
 
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/transactions.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/import_file.css') }}">
 <script type="text/javascript" src="{{ url_for('static', filename='script/transactions/index.js') }}" defer></script>
 <script type="text/javascript" src="{{ url_for('static', filename='script/transactions/import_file.js') }}" defer></script>
 <script type="text/javascript" src="{{ url_for('static', filename='script/transactions/date_picker.js') }}" defer></script>
 <script type="text/javascript" src="{{ url_for('static', filename='script/transactions/rows.js') }}" defer></script>
 <script type="text/javascript" src="{{ url_for('static', filename='script/transactions/cell_editor.js') }}" defer></script>
 <script type="text/javascript" src="{{ url_for('static', filename='script/transactions/side-menu.js') }}" defer></script>
+<script type="text/javascript" src="{{ url_for('static', filename='script/transactions/user.js') }}" defer></script>
 <script type="text/javascript" src="{{ url_for('static', filename='script/api/users.js') }}" defer></script>
 <script type="text/javascript" src="{{ url_for('static', filename='script/api/transactions.js') }}" defer></script>
 <script type="text/javascript" src="{{ url_for('static', filename='script/api/subcategories.js') }}" defer></script>
 <script type="text/javascript" src="{{ url_for('static', filename='script/api/banks.js') }}" defer></script>
+<script type="text/javascript" src="{{ url_for('static', filename='script/api/accounts.js') }}" defer></script>
 {% endblock %}
 
 {% block body %}
@@ -23,47 +26,113 @@
 <main>
     <!-- Header Main -->
     <header>
-        <h4>Transactions <span id="transactions-quantity"></span></h4>
+        <h4>Transactions
+            <select id="user_filter"></select>
+            <a id="unverifiedTransactions" href="/verify" title="Unverified transactions">! Unverified transactions</a>
+        </h4>
+        <div class="date-pagination">
+            <a id="date-pagination-left"><svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"><path
+                        d="M576-240 336-480l240-240 51 51-189 189 189 189-51 51Z" /></svg></a>
+            <input type="month" id="datePicker">
+            <a id="date-pagination-right"><svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"><path
+                        d="M522-480 333-669l51-51 240 240-240 240-51-51 189-189Z" /></svg></a>
+        </div>
         <div class="header-buttons">
             <button id="addButton" title="Add row" onclick="addNew.row();">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path
                         d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" /></svg>
             </button>
-            <button id="importButton" title="Import file" onclick="openImportFile();addOptions();">
+            <button id="importButton" title="Import file" onclick="openImportFile();">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path
                         d="M440-160v-326L336-382l-56-58 200-200 200 200-56 58-104-104v326h-80ZM160-600v-120q0-33 23.5-56.5T240-800h480q33 0 56.5 23.5T800-720v120h-80v-120H240v120h-80Z" /></svg>
             </button>
         </div>
     </header>
     <!-- End Header Main -->
-    <section class="transactions-content-container">
-        <div class="filter-container">
-            <div class="date-pagination">
-                <a id="date-pagination-left"><span><</span></a>
-                <input type="month" id="datePicker">
-                <a id="date-pagination-right"><span>></span></a>
+
+    <div class="transactions-table-and-organizer">
+        <section class="transactions-table">
+            <div class="transactions-table-header">
+                <div class="transactions-table-header-labels">
+                    <div class="transactions-table-cell posted_date">
+                        Date
+                    </div>
+                    <div class="transactions-table-cell description">
+                        Description
+                    </div>
+                    <div class="transactions-table-cell subcategory_name">
+                        Category
+                    </div>
+                    <div class="transactions-table-cell shared_amount">
+                        Amount Shared
+                    </div>
+                    <div class="transactions-table-cell amount">
+                        Amount
+                    </div>
+                </div>
+            </div>
+            <div class="transactions-table-rows-container">
+                <div class="transactions-table-rows">
+                </div>
+                <div class="empty-rows" id="empty-rows" style="display: none;">
+                    <p>No transactions</p>
+                </div>
+            </div>
+            <div class="menu-row-overlay" id="row-menu-overlay">
+                <div class="menu-row" id="row-menu">
+                    <div class="menu-row-button" id="moveTo">
+                        <div class="row-menu-button-text">Move to</div>
+                        <div class="row-menu-button-symbol"><svg xmlns="http://www.w3.org/2000/svg" height="12px" viewBox="0 -960 960 960" width="12px"><path
+                                    d="m321-80-71-71 329-329-329-329 71-71 400 400L321-80Z" /></svg>
+                        </div>
+                        <div class="menu-row" style="display: none;" id="moveTo-submenu">
+                        </div>
+                    </div>
+                    <div class="menu-row-button warning" id="deleteButton">
+                        <div class="row-menu-button-text">Delete Transaction</div>
+                        <div class="row-menu-button-symbol"><svg xmlns="http://www.w3.org/2000/svg" height="14px" viewBox="0 -960 960 960" width="14px"><path
+                                    d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z" /></svg></div>
+                    </div>
+                    <div class="menu-row-details" id="row_details"></div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="save-new-transaction-overlay" id="save-new-overlay">
+        <div class="save-new-transaction-container" id="save-new-container">
+            <div class="save-new-transaction-form" id="save-new-form">
+                <div class="save-new-transaction-form-header">
+                    <h4>New Transaction</h4>
+                </div>
+                <div style="display: flex; margin-bottom: .5rem;">
+                    <input required type="text" id="description" placeholder="Transaction Description" title="Transaction Description">
+                    <input required style="margin-right: .2rem;" type="date" id="date-new" title="Transaction Date">
+                </div>
+                <select name="subcategory" id="subcategory" title="Category"></select>
+                <select name="account" id="account" title="Account"></select>
+                <div style="display: flex; width: 95%;">
+                    <input required type="number" id="shared_amount" placeholder="Shared Amount" title="Shared Amount" value=0>
+                    <input required type="number" id="amount" placeholder="Amount" title="Amount">
+                </div>
+                <button id="saveButton">Save</button>
             </div>
         </div>
-        <div class="transactions-container">
-            <table class="transactions" id="transactionstable">
-                <thead id="transactionsHead">
-                    <tr>
-                        <th>Id</th>
-                        <th>Date</th>
-                        <th>Description</th>
-                        <th>Subcategory</th>
-                        <th>User</th>
-                        <th>Account</th>
-                        <th>Amount Shared</th>
-                        <th>Amount</th>
-                    </tr>
-                </thead>
-                <tbody id="transactionsbody">
-                </tbody>
-            </table>
+    </div>
+    <div class="popup-container-overlay" id="importfileform">
+        <div class="popup-container">
+            <form class="form-container" method="POST" action="/import" enctype=multipart/form-data>
+                <h4>Import file</h4>
+                <label for="user">User</label>
+                <select name="user" id="import_user"></select>
+                <label for="account">Account</label>
+                <select name="account" id="import_account"></select>
+                <input name="bank" type="number" id="import_bank" style="display: none;">
+                <input type="file" name="file" , id="file" accept=".csv, .xls, .xlsx" required>
+                <button id="importbtn">Import</button>
+            </form>
         </div>
-        <div id="import-container"></div>
-    </section>
+    </div>
 </main>
 <!-- End  Main -->
 {% endblock %}

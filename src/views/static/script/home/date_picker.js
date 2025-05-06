@@ -4,7 +4,7 @@ const datePicker = document.getElementById("datePicker");
 const dateRightButton = document.getElementById("date-pagination-right");
 const dateLeftButton = document.getElementById("date-pagination-left");
 
-function getDatePickerValue() {
+async function getDatePickerValue() {
   // Return [year, month]
   let value = datePicker.value;
   if (value) {
@@ -30,22 +30,11 @@ function datePickerButtons() {
     dateLeftButton.style.display = "flex";
   }
 }
-function getDefaultDate() {}
-async function addPickerDefaultValues() {
-  let pickerValue = getDatePickerValue();
-  // Add Current Month/Year incase Picker is empty
-  if (!pickerValue) {
-    let currentDate = new Date();
-    let nextMonth = new Date(new Date(currentDate).setMonth(currentDate.getMonth() + 1)).toISOString();
-    currentDate = currentDate.toISOString();
-    datePicker.setAttribute("value", currentDate.slice(0, 7));
-    datePicker.setAttribute("max", nextMonth.slice(0, 7));
-    datePicker.setAttribute("min", currentDate.slice(0, 7));
-  }
+async function addAvailableDates() {
   let dates = await getDates();
   if (dates) {
     let maxDate = new Date(dates["max"]["year"], dates["max"]["month"], 1);
-    maxDate = new Date(new Date(maxDate).setMonth(maxDate.getMonth() + 1)).toISOString();
+    maxDate = new Date(new Date(maxDate).setMonth(maxDate.getMonth())).toISOString();
     if (maxDate > datePicker.max) {
       datePicker.setAttribute("max", maxDate.slice(0, 7));
     }
@@ -56,11 +45,18 @@ async function addPickerDefaultValues() {
     }
   }
 }
-
-window.onload = async () => {
-  await addPickerDefaultValues();
-  datePickerButtons();
-};
+async function addPickerDefaultValues() {
+  let pickerValue = await getDatePickerValue();
+  // Add Current Month/Year incase Picker is empty
+  if (!pickerValue) {
+    let currentDate = new Date();
+    let nextMonth = new Date(new Date(currentDate).setMonth(currentDate.getMonth() + 1)).toISOString();
+    currentDate = currentDate.toISOString();
+    datePicker.setAttribute("value", currentDate.slice(0, 7));
+    datePicker.setAttribute("max", nextMonth.slice(0, 7));
+    datePicker.setAttribute("min", currentDate.slice(0, 7));
+  }
+}
 
 datePicker.addEventListener("focus", function (event) {
   event.target.showPicker();
@@ -69,10 +65,11 @@ datePicker.addEventListener("focus", function (event) {
 datePicker.addEventListener("change", async function (event) {
   event.target.blur();
   datePickerButtons();
+  await addRows();
 });
 
-dateRightButton.addEventListener("click", () => {
-  let [year, month] = getDatePickerValue();
+dateRightButton.addEventListener("click", async () => {
+  let [year, month] = await getDatePickerValue();
   month++;
   if (month > 12) {
     month = 1;
@@ -82,10 +79,12 @@ dateRightButton.addEventListener("click", () => {
     month = "0" + month;
   }
   datePicker.value = `${year}-${month}`;
+  const event = new Event("change"); // Create a click event
+  datePicker.dispatchEvent(event);
   datePickerButtons();
 });
-dateLeftButton.addEventListener("click", () => {
-  let [year, month] = getDatePickerValue();
+dateLeftButton.addEventListener("click", async () => {
+  let [year, month] = await getDatePickerValue();
   month--;
   if (month < 1) {
     month = 12;
@@ -95,5 +94,13 @@ dateLeftButton.addEventListener("click", () => {
     month = "0" + month;
   }
   datePicker.value = `${year}-${month}`;
+  const event = new Event("change"); // Create a click event
+  datePicker.dispatchEvent(event);
   datePickerButtons();
 });
+
+async function setupDatePicker() {
+  addPickerDefaultValues();
+  await addAvailableDates();
+  datePickerButtons();
+}

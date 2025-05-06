@@ -2,11 +2,15 @@
 
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
-<script type="text/javascript" src="{{ url_for('static', filename='script/home/date_picker.js') }}" defer></script>
-<script type="text/javascript" src="{{ url_for('static', filename='script/home/index.js') }}" defer></script>
 <!-- API -->
 <script type="text/javascript" src="{{ url_for('static', filename='script/api/subcategories.js') }}" defer></script>
 <script type="text/javascript" src="{{ url_for('static', filename='script/api/budget.js') }}" defer></script>
+<script type="text/javascript" src="{{ url_for('static', filename='script/api/users.js') }}" defer></script>
+<!-- Scripts -->
+<script type="text/javascript" src="{{ url_for('static', filename='script/home/date_picker.js') }}" defer></script>
+<script type="text/javascript" src="{{ url_for('static', filename='script/home/user.js') }}" defer></script>
+<script type="text/javascript" src="{{ url_for('static', filename='script/home/index.js') }}" defer></script>
+
 {% endblock %}
 
 {% block body %}
@@ -17,7 +21,7 @@
 <!-- Main -->
 <main>
     <header>
-        <h4>Budget</h4>
+        <h4>Budget <select id="user_filter"></select></h4>
         <div class="date-pagination">
             <a id="date-pagination-left"><svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"><path
                         d="M576-240 336-480l240-240 51 51-189 189 189 189-51 51Z" /></svg></a>

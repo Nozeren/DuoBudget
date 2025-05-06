@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Budget - Settings User</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/settings/settings.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/settings/user.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/settings/accounts.css') }}">
+<script type="text/javascript" src="{{ url_for('static', filename='script/api/users.js') }}" defer></script>
+<script type="text/javascript" src="{{ url_for('static', filename='script/api/accounts.js') }}" defer></script>
+<script type="text/javascript" src="{{ url_for('static', filename='script/api/banks.js') }}" defer></script>
+<script type="text/javascript" src="{{ url_for('static', filename='script/api/accounts_type.js') }}" defer></script>
+<script type="text/javascript" src="{{ url_for('static', filename='script/settings/user.js') }}" defer></script>
+<script type="text/javascript" src="{{ url_for('static', filename='script/settings/accounts.js') }}" defer></script>
+<script type="text/javascript" src="{{ url_for('static', filename='script/settings/general.js') }}" defer></script>
+{% endblock %}
+
+{% block body %}
+<script>
+    document.getElementById("settings-li").classList.add("active");
+</script>
+<!-- Main -->
+<main>
+    <section class="users">
+        <header>
+            <h4>Users <span id="users-quantity"></span></h4>
+        </header>
+        <div class="settings-user-section">
+            <!--- Add users section --->
+            <section class="list-container">
+                <div class="list-container-header">
+                    <h4>Add User</h4>
+                    <p>Removing a user may delete and affect user data.</p>
+                </div>
+                <div id="addUsersList" class="users-list">
+                    <div class="newuseroption" id="newuseroption"></div>
+                    <div class="usersbuttons">
+                        <a class="show" id="adduser"><strong>+</strong></a>
+                        <a class="show" type="submit" id="removeuser"><strong>-</strong></a>
+                        <a id="saveuser" name="saveuser" class="hide">v</a>
+                        <a id="canceluser" class="hide">x</a>
+                    </div>
+                </div>
+            </section>
+            <!--- End Add users section --->
+        </div>
+    </section>
+    <section class="accounts">
+        <header>
+            <h4>Accounts <span id="accounts-quantity"></span></h4>
+        </header>
+        <div class="settings-account-section">
+            <!--- Add users section --->
+            <section class="list-container">
+                <div class="list-container-header">
+                    <h4>Manage Accounts</h4>
+                    <p>Removing an account may affect user data.</p>
+                </div>
+                <div class="list-container-content" id="accounts-users-list">
+                    <div class="users" id="list-container-users"></div>
+                    <div class="accounts" id="list-container-accounts">
+                        <div class="accounts-buttons hide" id="accounts-buttons">
+                            <a class="add-account-btn" id="addaccount"><strong>+</strong></a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!--- End Add users section --->
+        </div>
+    </section>
+</main>
+<!-- End  Main -->
+{% endblock %}

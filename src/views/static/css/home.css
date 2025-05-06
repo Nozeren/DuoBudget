@@ -1,3 +1,19 @@
+#user_filter{
+    border: none;
+    background: transparent;
+    outline: none;
+    border-radius: 8px;
+    color: var(--description-clr);
+    padding: 5px 0 5px 5px;
+    text-align: center;
+    font-size: 1em;
+    margin-left: 1.4em;
+}
+#user_filter:hover{
+    background-color: var(--secondary-clr);
+    color: var(--text-clr);
+    cursor: pointer;
+}
 .date-pagination{
     display: flex;
     align-items: center;
@@ -149,3 +165,12 @@
     border-bottom: 2px dashed var(--secondary-clr);
 }
 
+.positive{
+    color: var(--success-clr);
+}
+.negative{
+    color: var(--warning-clr);
+}
+.inactive{
+    color: var(--description-clr);
+}

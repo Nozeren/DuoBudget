@@ -21,33 +21,31 @@ function closeEdit() {
   }
 }
 async function updateUsers() {
-  await getUsers().then(function (data) {
-    for (user of data) {
-      let form = document.getElementById("addUsersList");
-      let div = document.createElement("div");
-      let inputUserName = document.createElement("input");
-      let label = document.createElement("label");
-      let code = document.createElement("code");
-      let exists = document.getElementById("useroption" + user["id"]);
-      if (!exists) {
-        div.className = "useroption";
-        inputUserName.type = "radio";
-        inputUserName.name = "useroption";
-        inputUserName.id = "useroption" + user["id"];
-        inputUserName.value = user["id"];
-        label.htmlFor = "useroption" + user["id"];
-        div.addEventListener("click", () => {
-          inputUserName.checked = true;
-        });
-        code.innerText = user["name"];
-        div.appendChild(inputUserName);
-        label.appendChild(code);
-        div.appendChild(label);
-        form.insertBefore(div, newUserOption);
-      }
+  for (user of users) {
+    let form = document.getElementById("addUsersList");
+    let div = document.createElement("div");
+    let inputUserName = document.createElement("input");
+    let label = document.createElement("label");
+    let code = document.createElement("code");
+    let exists = document.getElementById("useroption" + user["id"]);
+    if (!exists) {
+      div.className = "useroption";
+      inputUserName.type = "radio";
+      inputUserName.name = "useroption";
+      inputUserName.id = "useroption" + user["id"];
+      inputUserName.value = user["id"];
+      label.htmlFor = "useroption" + user["id"];
+      div.addEventListener("click", () => {
+        inputUserName.checked = true;
+      });
+      code.innerText = user["name"];
+      div.appendChild(inputUserName);
+      label.appendChild(code);
+      div.appendChild(label);
+      form.insertBefore(div, newUserOption);
     }
-    document.getElementById("users-quantity").innerText = data.length;
-  });
+  }
+  document.getElementById("users-quantity").innerText = users.length;
 }
 
 let add = {
@@ -124,7 +122,3 @@ saveUser.addEventListener("click", async function (e) {
   await add.done();
   await updateUsers();
 });
-
-window.onload = async function () {
-  await updateUsers();
-};
