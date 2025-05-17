@@ -11,6 +11,12 @@ A simple flask app to track expenses, categorize bills, and split costs with you
 - [ ] **Bill Splitting** – Select shared expenses with your partner, calculate amounts, and settle payments.
 - [ ] **Dashboard Overview** – Track spending, savings, and income.
 
+
+---
+### Setup 
+
+Create enviroment variable API_URL.
+
 ---
 
 ### 🤝 Contributing
