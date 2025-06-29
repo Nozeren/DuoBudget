@@ -151,7 +151,7 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
     border: 1px solid var(--description-clr);
     border-radius: 10px;
-    width: 200px;
+    width: auto;
     padding-left: 1rem;
     margin-right: 1rem;
 }
@@ -159,6 +159,7 @@
 .form-container {
     display: flex;
     flex-direction: column;
+    margin-right: 1rem;
 
     label {
         font-size: 12px;

@@ -67,7 +67,6 @@ async function getUnverified(user_id) {
       return response.json();
     })
     .then(function (data) {
-      console.log(data);
       return data[0];
     });
 }

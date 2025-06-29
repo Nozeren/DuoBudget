@@ -378,29 +378,41 @@
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
     border: 1px solid var(--description-clr);
     border-radius: 10px;
-    width: 320px;
+    width: auto;
     padding-left: 2rem;
     margin-right: 1rem;
 }
 
-
-
 .save-new-transaction-form {
     display: flex;
     flex-direction: column;
+    margin-right:1rem;
 
     h4 {
         margin: 1.2rem 0 .8rem;
     }
+    label {
+        font-size: 12px;
+        color: var(--description-clr);
+        margin-top: 0.2rem;
+    }
+
+    input {
+        padding: 5px;
+        border-radius: 8px;
+        border: 1px solid var(--sidebar-clr);
+        background-color: var(--primary-clr);
+        font-size: 14px;
+        color: var(--text-clr);
+    }
 
     select {
-        width: 95%;
         padding: 5px;
-        margin-bottom: .5rem;
         border: 1px solid var(--sidebar-clr);
         color: var(--text-clr);
         border-radius: 8px;
-        font-size: 1rem;
+        font-size: 14px;
+        width: 100%;
         box-sizing: border-box;
         background-color: var(--primary-clr);
         cursor: pointer;
@@ -410,24 +422,8 @@
         }
     }
 
-    input {
-        font-size: 14px;
-        background-color: var(--primary-clr);
-        cursor: pointer;
-        color: var(--text-clr);
-        border: 1px solid var(--sidebar-clr);
-        border-radius: 8px;
-        padding: 5px;
-    }
-
-    input[type="number"] {
-        width: 45%;
-        overflow: hidden;
-    }
-
     button {
         display: flex;
-        width: 95%;
         color: var(--text-clr);
         padding: 3px 9px;
         font-size: 16px;
@@ -438,16 +434,14 @@
         background-color: var(--primary-clr);
         border-radius: 8px;
         cursor: pointer;
-        margin-bottom: 1.2rem;
-        margin-top: .5rem;
+        margin-bottom: .8rem;
     }
 
-    input:hover,
     select:hover,
     button:hover {
         border-color: var(--description-clr);
     }
-}
+   }
 
 /*Animations*/
 @keyframes fadeOut {

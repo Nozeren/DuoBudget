@@ -59,6 +59,7 @@ async function addPickerDefaultValues() {
 }
 
 datePicker.addEventListener("focus", function (event) {
+    console.log('hey')
   event.target.showPicker();
 });
 

@@ -32,19 +32,19 @@
         </h4>
         <div class="date-pagination">
             <a id="date-pagination-left"><svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"><path
-                        d="M576-240 336-480l240-240 51 51-189 189 189 189-51 51Z" /></svg></a>
+                    d="M576-240 336-480l240-240 51 51-189 189 189 189-51 51Z" /></svg></a>
             <input type="month" id="datePicker">
             <a id="date-pagination-right"><svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"><path
-                        d="M522-480 333-669l51-51 240 240-240 240-51-51 189-189Z" /></svg></a>
+                    d="M522-480 333-669l51-51 240 240-240 240-51-51 189-189Z" /></svg></a>
         </div>
         <div class="header-buttons">
             <button id="addButton" title="Add row" onclick="addNew.row();">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path
-                        d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" /></svg>
+                    d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" /></svg>
             </button>
             <button id="importButton" title="Import file" onclick="openImportFile();">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path
-                        d="M440-160v-326L336-382l-56-58 200-200 200 200-56 58-104-104v326h-80ZM160-600v-120q0-33 23.5-56.5T240-800h480q33 0 56.5 23.5T800-720v120h-80v-120H240v120h-80Z" /></svg>
+                    d="M440-160v-326L336-382l-56-58 200-200 200 200-56 58-104-104v326h-80ZM160-600v-120q0-33 23.5-56.5T240-800h480q33 0 56.5 23.5T800-720v120h-80v-120H240v120h-80Z" /></svg>
             </button>
         </div>
     </header>
@@ -83,7 +83,7 @@
                     <div class="menu-row-button" id="moveTo">
                         <div class="row-menu-button-text">Move to</div>
                         <div class="row-menu-button-symbol"><svg xmlns="http://www.w3.org/2000/svg" height="12px" viewBox="0 -960 960 960" width="12px"><path
-                                    d="m321-80-71-71 329-329-329-329 71-71 400 400L321-80Z" /></svg>
+                                d="m321-80-71-71 329-329-329-329 71-71 400 400L321-80Z" /></svg>
                         </div>
                         <div class="menu-row" style="display: none;" id="moveTo-submenu">
                         </div>
@@ -91,7 +91,7 @@
                     <div class="menu-row-button warning" id="deleteButton">
                         <div class="row-menu-button-text">Delete Transaction</div>
                         <div class="row-menu-button-symbol"><svg xmlns="http://www.w3.org/2000/svg" height="14px" viewBox="0 -960 960 960" width="14px"><path
-                                    d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z" /></svg></div>
+                                d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z" /></svg></div>
                     </div>
                     <div class="menu-row-details" id="row_details"></div>
                 </div>
@@ -105,16 +105,18 @@
                 <div class="save-new-transaction-form-header">
                     <h4>New Transaction</h4>
                 </div>
-                <div style="display: flex; margin-bottom: .5rem;">
-                    <input required type="text" id="description" placeholder="Transaction Description" title="Transaction Description">
-                    <input required style="margin-right: .2rem;" type="date" id="date-new" title="Transaction Date">
-                </div>
+                <label for="description">Description</label>
+                <input name="description" required type="text" id="description" placeholder="Transaction Description" title="Transaction Description">
+                <label for="Date">Date</label>
+                <input name="date" required style="margin-right: .2rem;" type="date" id="date-new" title="Transaction Date">
+                <label for="subcategory">Subcategory</label>
                 <select name="subcategory" id="subcategory" title="Category"></select>
+                <label for="account">Account</label>
                 <select name="account" id="account" title="Account"></select>
-                <div style="display: flex; width: 95%;">
-                    <input required type="number" id="shared_amount" placeholder="Shared Amount" title="Shared Amount" value=0>
-                    <input required type="number" id="amount" placeholder="Amount" title="Amount">
-                </div>
+                <label for="shared-amount">Shared Amount</label>
+                <input name="shared-amount" required type="number" id="shared_amount" placeholder="Shared Amount" title="Shared Amount" value=0>
+                <label for="amount">Amount</label>
+                <input required type="number" id="amount" name="amount" placeholder="Amount" title="Amount">
                 <button id="saveButton">Save</button>
             </div>
         </div>

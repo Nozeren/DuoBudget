@@ -77,7 +77,7 @@ function createSelectCell(cell, data, optionColumn, defaultOption, color = false
       select.appendChild(groups[group]);
     }
   }
-  cell.addEventListener("click", () => editable.select(cell));
+  cell.addEventListener("change", () => editable.select(cell));
   cell.appendChild(select);
   return cell;
 }
@@ -92,9 +92,9 @@ async function addRows() {
   while (tableRows.firstChild) {
     tableRows.removeChild(tableRows.firstChild);
   }
-  subcategories = await getSubcategories();
   let [year, month] = await getDatePickerValue();
   let user_id = document.getElementById("user_filter").value;
+  subcategories = await getSubcategories(user_id);
   let transactions = await getTransactions(user_id, year, month);
   if (transactions.length) {
     document.getElementById("empty-rows").style.display = "none";

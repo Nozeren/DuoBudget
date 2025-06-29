@@ -22,3 +22,24 @@ async function getDates() {
       return data[0];
     });
 }
+
+async function updateAssigned(data) {
+    return fetch("/update-assigned", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+}
+
+async function getTotalAssigned(userId) {
+  return fetch(`/total-assigned/${userId}`)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      return data[0];
+    });
+}
+

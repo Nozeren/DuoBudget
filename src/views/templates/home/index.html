@@ -6,10 +6,13 @@
 <script type="text/javascript" src="{{ url_for('static', filename='script/api/subcategories.js') }}" defer></script>
 <script type="text/javascript" src="{{ url_for('static', filename='script/api/budget.js') }}" defer></script>
 <script type="text/javascript" src="{{ url_for('static', filename='script/api/users.js') }}" defer></script>
+<script type="text/javascript" src="{{ url_for('static', filename='script/api/accounts.js') }}" defer></script>
 <!-- Scripts -->
 <script type="text/javascript" src="{{ url_for('static', filename='script/home/date_picker.js') }}" defer></script>
 <script type="text/javascript" src="{{ url_for('static', filename='script/home/user.js') }}" defer></script>
 <script type="text/javascript" src="{{ url_for('static', filename='script/home/index.js') }}" defer></script>
+<script type="text/javascript" src="{{ url_for('static', filename='script/home/accounts.js') }}" defer></script>
+<script type="text/javascript" src="{{ url_for('static', filename='script/home/categories.js') }}" defer></script>
 
 {% endblock %}
 
@@ -30,10 +33,6 @@
                         d="M522-480 333-669l51-51 240 240-240 240-51-51 189-189Z" /></svg></a>
         </div>
         <div class="header-buttons">
-            <button id="addButton" title="Add" onclick="addNew.row();">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"><path
-                        d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" /></svg>
-            </button>
         </div>
     </header>
     <div class="budget-table-and-organizer">
@@ -43,22 +42,28 @@
                     <div class="budget-table-cell category">
                         Category
                     </div>
-                    <div class="budget-table-cell assigned">
+                    <div class="budget-table-cell assigned" title="The total amount of money you have budgeted for these categories this month">
                         Assigned
                     </div>
-                    <div class="budget-table-cell activity">
+                    <div class="budget-table-cell activity" title="The total amount spent or received in these categories based on transactions this month">
                         Activity
                     </div>
-                    <div class="budget-table-cell available">
+                    <div class="budget-table-cell available" title="The remaining amount in these categories: (Assigned - Activity)">
                         Available
                     </div>
                 </div>
             </div>
             <div class="budget-table-rows-container">
-                <div class="budget-table-rows">
+                <div id="table-rows" class="budget-table-rows">
 
                 </div>
             </div>
+
+            <div class="tips" style="margin-top:1rem; font-size:12px; opacity:.8; border:1px solid white; align-text:center;">
+                <p>Shared categories: Assigned (amount to pay to the other user) = Other User Shared Amount - Shared Amount of current user</p>
+                <p>Available at the end is the amount to pay to the other user until the current month</p>
+            </div>
+
         </section>
         <aside class="organizer">
 

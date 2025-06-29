@@ -16,7 +16,6 @@ async function getAccounts() {
       return data[0];
     });
 }
-
 async function updateAccount(data) {
   return fetch("/updateaccount", {
     method: "PUT",

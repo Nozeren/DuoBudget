@@ -174,3 +174,68 @@
 .inactive{
     color: var(--description-clr);
 }
+
+.menu-option-overlay{
+    position: absolute;
+    z-index: 99999;
+    padding: 5px;
+    width: 1rem;
+    display: flex;
+    justify-content: flex-start;
+
+    .menu-option{
+        display: flex;
+        align-items: center;
+        fill: var(--description-clr)
+    }
+
+    .menu-option:hover {
+        cursor: pointer;
+        fill: var(--text-clr)
+    }
+}
+
+
+.menu-overlay {
+    display: flex;
+    justify-content: right;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 99999;
+    width: 100%;
+    height: 100%;
+}
+.menu-displayer{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    background: var(--secondary-clr);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--primary-clr);
+    border-radius: 10px;
+    width: 220px;
+    padding-left: .5rem;
+    padding-bottom: .3rem;
+
+}
+.accounts-list{
+    display:flex;
+    flex-direction: column;
+    width: 75%;
+    padding:2rem;
+}
+.accounts-list-total-row,.accounts-list-assigned-row,.accounts-list-account-row
+{
+    display: flex;
+    justify-content: space-between;
+}
+.accounts-list-total-row{
+    font-size: 18px;
+    font-weight: bold;
+    border-bottom: 1px dotted var(--description-clr);
+}
+.accounts-list-assigned-row,.accounts-list-account-row{
+    color: var(--description-clr);
+    font-size: 14px;
+}

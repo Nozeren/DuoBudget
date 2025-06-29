@@ -13,9 +13,9 @@ async def transactions():
     return render_template('transactions/index.html')
 
 
-@app.route('/subcategories', methods=['GET'])
-async def get_subcategories():
-    results = requests.get(f'{API_URL}/subcategories/')
+@app.route('/subcategories/<user_id>', methods=['GET'])
+async def get_subcategories(user_id:int):
+    results = requests.get(f'{API_URL}/subcategories/all/{user_id}')
     return jsonify(results.json(), results.status_code)
 
 @app.route('/accounts', methods=['GET'])

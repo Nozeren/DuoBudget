@@ -21,3 +21,10 @@ async def get_budget_dates():
     results = requests.get(f'{API_URL}/budget/getfirstlastdate')
     return jsonify(results.json(), results.status_code)
 
+@app.route('/update-assigned', methods=['PUT'])
+async def update_assigned():
+    data = request.get_json()
+    result = requests.put(f'{API_URL}/budget/assigned', json=data)
+    return jsonify({'result': 'Sucess'}, result.status_code)
+
+

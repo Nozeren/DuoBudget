@@ -2,6 +2,7 @@ const months = ["January", "February", "March", "April", "May", "June", "July", 
 function addOptionsToNew(selectElement, data, optionColumn, defaultOption) {
   while (selectElement.firstChild) {
     selectElement.removeChild(selectElement.firstChild);
+    console.log("removed")
   }
   let groups = {};
   let optionGroups = {
@@ -44,12 +45,24 @@ let addNew = {
   row: async () => {
     let overlay = document.getElementById("save-new-overlay");
     overlay.style.display = "flex";
-    let subcategory = document.getElementById("subcategory");
-    let subcategories = await getSubcategories();
-    addOptionsToNew(subcategory, subcategories, "subcategory", undefined);
+      // Accounts
     let accounts = await getAccounts();
     let account = document.getElementById("account");
+    account.addEventListener("change",async function(){
+        let subcategory = document.getElementById("subcategory");
+        let index = account.selectedIndex;
+        let user_id = account.options[index].dataset.user_name;
+        let subcategories = await getSubcategories(user_id);
+        addOptionsToNew(subcategory, subcategories, "subcategory", undefined);
+    })
     addOptionsToNew(account, accounts, "name", undefined);
+      //Subcategories
+    let subcategory = document.getElementById("subcategory");
+    let index = account.selectedIndex;
+    let user_id = account.options[index].dataset.user_name;
+    let subcategories = await getSubcategories(user_id);
+    addOptionsToNew(subcategory, subcategories, "subcategory", undefined);
+    
     let saveButton = document.getElementById("saveButton");
     saveButton.onclick = async () => {
       let description = document.getElementById("description").value;
